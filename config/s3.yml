@@ -1,0 +1,14 @@
+development:
+    access_key_id: AKIAIJK5C4GFDENWV2BA
+    secret_access_key: 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
+    bucket: FrecipeDev
+
+test:
+  access_key_id: AKIAIJK5C4GFDENWV2BA
+  secret_access_key: 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
+  bucket: FrecipeTest
+
+production:
+  access_key_id: AKIAIJK5C4GFDENWV2BA
+  secret_access_key: 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
+  bucket: Frecipe

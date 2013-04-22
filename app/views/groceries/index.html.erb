@@ -1,0 +1,21 @@
+<h1>Listing groceries</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @groceries.each do |grocery| %>
+  <tr>
+    <td><%= link_to 'Show', grocery %></td>
+    <td><%= link_to 'Edit', edit_grocery_path(grocery) %></td>
+    <td><%= link_to 'Destroy', grocery, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Grocery', new_grocery_path %>
