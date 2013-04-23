@@ -92,12 +92,18 @@ class CommentsController < ApplicationController
   # DELETE /comments/1
   # DELETE /comments/1.json
   def destroy
-    @comment = Comment.find(params[:id])
-    @comment.destroy
+    @user = User.find_by_authentication_token(params[:authentication_token])
+    @recipe = Recipe.find_by_id(params[:recipe_id])
+
+    @comment = Comment.find_by_id(params[:id])
 
     respond_to do |format|
-      format.html { redirect_to comments_url }
-      format.json { head :no_content }
+      if @comment.user == @user and @recipe
+        @comment.destroy
+        format.json { render :json => { :comments => @recipe.comments, :message => "success" }}
+      else
+        format.json { render :json { :message => "failure", :comments => nil}}
+      end  
     end
   end
 end
