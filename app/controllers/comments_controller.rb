@@ -102,7 +102,7 @@ class CommentsController < ApplicationController
         @comment.destroy
         format.json { render :json => { :comments => @recipe.comments, :message => "success" }}
       else
-        format.json { render :json { :message => "failure", :comments => nil}}
+        format.json { render :json => { :message => "failure"}}
       end  
     end
   end
