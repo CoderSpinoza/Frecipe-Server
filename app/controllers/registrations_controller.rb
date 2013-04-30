@@ -11,7 +11,7 @@ class RegistrationsController < Devise::RegistrationsController
         sign_up(resource_name, resource)
         resource.ensure_authentication_token!
         respond_to do |format|
-          format.json { render :json => ["success", resource, resource.authentication_token]}
+          format.json { render :json => ["success", resource, resource.authentication_token, resource.profile_picture.url ]}
         end
       else
         expire_session_data_after_sign_in!

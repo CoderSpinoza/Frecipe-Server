@@ -205,7 +205,7 @@ class TokensController < ApplicationController
 
 		respond_to do |format|
 			if @user
-				format.json { render :json => { :message => "currently registered user", :user => @user, :token => @user.authentication_token }}
+				format.json { render :json => { :message => "currently registered user", :user => @user, :profile_picture => @user.profile_picture.url, :token => @user.authentication_token }}
 			else
 				@email_user = User.find_by_email(email)
 				if @email_user
@@ -213,7 +213,7 @@ class TokensController < ApplicationController
 					@email_user.uid = uid
 
 					if @email_user.save
-						format.json { render :json => { :message => "currently registered email", :user => @email_user, :token => @email_user.authentication_token}}
+						format.json { render :json => { :message => "currently registered email", :user => @email_user, :profile_picture => @user.profile_picture.url, :token => @email_user.authentication_token}}
 					else
 					format.json { render :json => { :message => "There was an error registering"}}
 					end
