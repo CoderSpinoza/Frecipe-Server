@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
   has_many :grocery_relationships, :class_name => "Grocery", :foreign_key => "user_id"
   has_many :groceries, :through => :grocery_relationships, :source => :ingredient
   has_many :recipes
+
+  has_many :evaluations, class_name: "RSEvaluation", as: :source
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :provider, :uid, :authentication_token, :profile_picture, :level
   has_attached_file :profile_picture, :path => "public/image/users/:id/:filename", :url => "image/users/:id/:filename", :default_url => "https://s3.amazonaws.com/Frecipe/public/image/users/default_profile_picture.jpg", :s3_permissions => "public_read_write"
@@ -38,6 +40,19 @@ class User < ActiveRecord::Base
       return true
     else
       return false
+    end
+  end
+
+  def rated_for?(recipe)
+    evaluations.where(target_type: recipe.class, target_id: recipe.id).present?
+  end
+
+  def rate_value(recipe)
+    evaluation = evaluations.where(target_type: recipe.class, target_id: recipe.id)
+    if evaluation.length > 0
+      return evaluation[0].value
+    else
+      return 0
     end
   end
 

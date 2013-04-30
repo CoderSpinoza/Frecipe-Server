@@ -175,11 +175,13 @@ class RecipesController < ApplicationController
     comments = recipe.comments
     for comment in comments
       comment_user = comment.user
-
       @comments << { :user => comment_user, :profile_picture => comment_user.profile_picture.url, :comment => comment }
     end
+
+    user_rating = user.rate_value(recipe)
+
     set_difference = Set.new(recipe.ingredients) - Set.new(user.ingredients)
-    @recipe = { :recipe => recipe, :user => recipe.user, :user_image => recipe.user.profile_picture.url, :recipe_image => recipe.recipe_image.url, :ingredients => recipe.ingredients, :missing_ingredients => set_difference, :liked => user.liked?(recipe.id), :likes => recipe.likers.count, :followers => recipe.user.followers.count, :isOwner => isOwner, :comments => @comments, :steps => recipe.steps, :rating => recipe.reputation_for(:rating) }
+    @recipe = { :recipe => recipe, :user => recipe.user, :user_image => recipe.user.profile_picture.url, :recipe_image => recipe.recipe_image.url, :ingredients => recipe.ingredients, :missing_ingredients => set_difference, :liked => user.liked?(recipe.id), :likes => recipe.likers.count, :followers => recipe.user.followers.count, :isOwner => isOwner, :comments => @comments, :steps => recipe.steps, :rating => recipe.reputation_for(:rating), :user_rating => user_rating }
     respond_to do |format|
       format.json { render :json => @recipe }
     end
