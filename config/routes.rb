@@ -17,7 +17,6 @@ Frecipe::Application.routes.draw do
   match 'recipes/user' => "recipes#user"
   match 'recipes/detail' => "recipes#detail"
   match 'recipes/possible' => "recipes#possible"
-
   post 'recipes/rate' => "recipes#rate"
   resources :recipes
 

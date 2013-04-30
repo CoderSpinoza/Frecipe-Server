@@ -192,8 +192,12 @@ class RecipesController < ApplicationController
       if user
         rating = params[:rating]
         @recipe = Recipe.find_by_id(params[:id])
-        @recipe.add_or_update_evaluation(:rating, rating, user)
-        format.json { render :json =>  { :rating => @recipe.reputation_for(:rating) }}
+        if @recipe
+          @recipe.add_or_update_evaluation(:rating, rating, user)
+          format.json { render :json =>  { :message => "success", :rating => @recipe.reputation_for(:rating) }}
+        else
+          format.json { render :json => { :message => "No such recipe"}}
+        end
       else
         format.json { render :json => { :message => "Invalid authentication token"}}
       end
