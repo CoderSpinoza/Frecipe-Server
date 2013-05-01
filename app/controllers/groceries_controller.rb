@@ -50,8 +50,6 @@ class GroceriesController < ApplicationController
         @groceries << grocery
       end
     end
-    
-    
     respond_to do |format|
       if @groceries.length > 0
         format.json { render :json => { :groceries => @groceries}}
