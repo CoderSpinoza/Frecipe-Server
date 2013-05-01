@@ -14,7 +14,7 @@ class TokensController < ApplicationController
 			else 
 				@user.ensure_authentication_token!
 				if @user.valid_password?(password)
-					render :status => 200, :json => { :token => @user.authentication_token, :user => @user }
+					render :status => 200, :json => { :token => @user.authentication_token, :user => @user, :profile_picture => @user.profile_picture.url }
 				else
 					render :status => 401, :json => { :user => @user, :message => "Invalid password"}
 				end
