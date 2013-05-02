@@ -109,7 +109,6 @@ class RecipesController < ApplicationController
     user = User.find_by_authentication_token(params[:authentication_token])
 
     respond_to do |format|
-
       if user
         if @recipe
           @recipe.destroy
