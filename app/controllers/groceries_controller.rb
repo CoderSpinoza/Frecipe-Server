@@ -120,7 +120,7 @@ class GroceriesController < ApplicationController
     end
   end
 
-  def add_to_fridge
+  def fridge
     user = User.find_by_authentication_token(params[:authentication_token])
     respond_to do |format|
       if user
