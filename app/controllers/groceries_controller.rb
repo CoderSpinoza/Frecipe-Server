@@ -118,6 +118,32 @@ class GroceriesController < ApplicationController
         format.json { render :json => { :message => "Invalid authentication token"}}
       end
     end
-    
+  end
+
+  def add_to_fridge
+    user = User.find_by_authentication_token(params[:authentication_token])
+    respond_to do |format|
+      if user
+        ingredients_array = params[:ids]
+        @groceries_array = []
+        @fridge_array = []
+        if ingredients_array
+          for i in ingredients_array
+            if grocery = Grocery.find_by_user_id_and_ingredient_id(user.id, i)
+              grocery.destroy
+              user_ingredient = UserIngredient.new(:user_id => user.id, :ingredient_id => i)
+
+              if user_ingredient.save
+                @fridge_array << user_ingredient
+              end
+              @ingredients_array << grocery
+            end
+          end
+        end
+        format.json { render :json => { :message => "success", :groceries => @output_array }}
+      else
+        format.json { render :json => { :message => "Invalid authentication token"}}
+      end
+    end
   end
 end
