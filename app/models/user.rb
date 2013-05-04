@@ -56,4 +56,22 @@ class User < ActiveRecord::Base
     end
   end
 
+  def average_rating
+    recipes = self.recipes
+
+    sum = 0
+    count = 0 
+    for recipe in recipes
+      sum += recipe.reputation_for(:rating)
+      count += 1
+    end
+
+    if count == 0
+      return 0
+    else
+      return Float(sum) / count
+    end
+    
+  end
+
 end
