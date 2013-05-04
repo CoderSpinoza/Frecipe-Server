@@ -134,13 +134,13 @@ class GroceriesController < ApplicationController
               user_ingredient = UserIngredient.new(:user_id => user.id, :ingredient_id => i)
 
               if user_ingredient.save
-                @fridge_array << user_ingredient
+                @fridge_array << Ingredient.find_by_id(i)
               end
-              @ingredients_array << grocery
+              @groceries_array << Ingredient.find_by_id(i)
             end
           end
         end
-        format.json { render :json => { :message => "success", :groceries => @output_array }}
+        format.json { render :json => { :message => "success", :groceries => @groceries_array, :fridge => @fridge_array }}
       else
         format.json { render :json => { :message => "Invalid authentication token"}}
       end
