@@ -60,6 +60,7 @@ class FollowsController < ApplicationController
         if follow
           @follow = Follow.new(:user => follow, :follower => user)
           if @follow.save
+            Notification.delay.create(:source => user, :target => follow, :category => "follow", :seen => 0)
             format.json { render :json => { :message => "Following"}}
           else
             follow = Follow.find_by_user_id_and_follower_id(follow.id, user.id)

@@ -71,7 +71,12 @@ class User < ActiveRecord::Base
     else
       return Float(sum) / count
     end
-    
+  end
+
+  def notify(recipe)
+    for follower in self.followers
+      Notification.create(:source => self, :target => follower, :recipe => recipe, :category => "upload", :seen => 0)
+    end
   end
 
 end

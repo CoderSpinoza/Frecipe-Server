@@ -1,5 +1,9 @@
 Frecipe::Application.routes.draw do
 
+  post 'notifications/user' => "notifications#user"
+  resources :notifications
+
+
   resources :comments
 
   match 'groceries/list' => "groceries#list"
