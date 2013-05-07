@@ -1,5 +1,7 @@
 class Notification < ActiveRecord::Base
   # attr_accessible :title, :body
+
+  default_scope order('created_at DESC')
   belongs_to :source, :class_name => "User"
   belongs_to :target, :class_name => "User"
   belongs_to :recipe
