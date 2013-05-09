@@ -58,7 +58,7 @@ class RecipesController < ApplicationController
 
     respond_to do |format|
       if @recipe.save
-        @user.delay.notify(@recipe)
+        @user.notify(@recipe)
         format.json { render :json => @recipe.ingredients }
       else
         format.json { render json: @recipe.errors, status: :unprocessable_entity }

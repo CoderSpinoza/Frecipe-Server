@@ -100,7 +100,13 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.user == @user and @recipe
         @comment.destroy
-        format.json { render :json => { :comments => @recipe.comments, :message => "success" }}
+        @comments = []
+        comments = @recipe.comments
+            for comment in comments
+              comment_user = comment.user
+              @comments << { :user => comment_user, :profile_picture => comment_user.profile_picture.url, :comment => comment }
+            end
+        format.json { render :json => { :comments => @comments, :message => "success" }}
       else
         format.json { render :json => { :message => "failure"}}
       end  
