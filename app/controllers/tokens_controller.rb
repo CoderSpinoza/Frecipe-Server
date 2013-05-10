@@ -98,7 +98,7 @@ class TokensController < ApplicationController
 					user_ingredients_set = Set.new(user.ingredients)
 		      recipe_ingredients_set = Set.new(recipe.ingredients)
 		      set_difference = recipe_ingredients_set - user_ingredients_set
-					@recipes << { :id => recipe.id, :recipe_name => recipe.name, :recipe_image => recipe.recipe_image.url, :user => recipe.user, :missing_ingredients => set_difference }
+					@recipes << { :id => recipe.id, :recipe_name => recipe.name, :recipe_image => recipe.recipe_image.url, :user => recipe.user, :missing_ingredients => set_difference, :likes => recipe.likers.length }
 					numOfLikes += recipe.likers.count
 					if mostPopularRecipe == nil or mostPopularRecipe.likers.count < recipe.likers.count
 						mostPopularRecipe = recipe
