@@ -110,7 +110,7 @@ class TokensController < ApplicationController
 					following = "Following"
 				end
 				respond_to do |format|
-					format.json { render :json => { :user => profile, :profile_image => profile.profile_picture.url, :recipes => @recipes, :followers => profile.followers, :likes => numOfLikes, :most => mostPopularRecipe, :mostLikes => mostPopularRecipeLikes, :following => following, :rating => user.average_rating }}
+					format.json { render :json => { :user => profile, :profile_image => profile.profile_picture.url, :recipes => @recipes, :followers => profile.followers, :likes => numOfLikes, :most => mostPopularRecipe, :mostLikes => mostPopularRecipeLikes, :follow => following, :rating => user.average_rating, :liked => user.liked, :following => user.following }}
 				end
 
 			else
@@ -132,7 +132,7 @@ class TokensController < ApplicationController
 					end
 				end
 				respond_to do |format|
-					format.json { render :json => { :user => user, :profile_image => user.profile_picture.url, :recipes => @recipes, :followers => user.followers, :likes => numOfLikes, :most => mostPopularRecipe, :mostLikes => mostPopularRecipeLikes, :following => following, :rating => user.average_rating }}
+					format.json { render :json => { :user => user, :profile_image => user.profile_picture.url, :recipes => @recipes, :followers => user.followers, :likes => numOfLikes, :most => mostPopularRecipe, :mostLikes => mostPopularRecipeLikes, :follow => following, :rating => user.average_rating, :liked => user.liked, :following => user.following }}
 				end
 			end
 		else
@@ -169,7 +169,7 @@ class TokensController < ApplicationController
 					following = "Following"
 				end
 				respond_to do |format|
-					format.json { render :json => { :user => profile, :profile_image => profile.profile_picture.url, :recipes => @recipes, :followers => profile.followers, :likes => numOfLikes, :most => mostPopularRecipe, :mostLikes => mostPopularRecipeLikes, :following => following }}
+					format.json { render :json => { :user => profile, :profile_image => profile.profile_picture.url, :recipes => @recipes, :followers => profile.followers, :likes => numOfLikes, :most => mostPopularRecipe, :mostLikes => mostPopularRecipeLikes, :follow => following, :following => user.following, :liked => user.liked }}
 				end
 
 			else
@@ -188,7 +188,7 @@ class TokensController < ApplicationController
 					end
 				end
 				respond_to do |format|
-					format.json { render :json => { :user => user, :profile_image => user.profile_picture.url, :recipes => @recipes, :followers => user.followers, :likes => numOfLikes, :most => mostPopularRecipe, :mostLikes => mostPopularRecipeLikes, :following => following }}
+					format.json { render :json => { :user => user, :profile_image => user.profile_picture.url, :recipes => @recipes, :followers => user.followers, :likes => numOfLikes, :most => mostPopularRecipe, :mostLikes => mostPopularRecipeLikes, :following => following, :following => user.following, :liked => user.liked  }}
 				end
 			end
 		else

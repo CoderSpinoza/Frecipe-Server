@@ -88,7 +88,7 @@ class NotificationsController < ApplicationController
       notifications_array = []
       count = 0
       for notification in notifications
-        notifications_array << { :category => notification.category, :source => notification.source, :target => notification.target, :recipe => notification.recipe, :seen => notification.seen }
+        notifications_array << { :id => notification.id, :category => notification.category, :source => notification.source, :target => notification.target, :recipe => notification.recipe, :seen => notification.seen }
         if notification.seen == 0
           count += 1
         end
@@ -100,6 +100,28 @@ class NotificationsController < ApplicationController
     else
       respond_to do |format|
         format.json { render :json => { :message => "Invalid authentication_token"}}
+      end
+    end
+  end
+
+  def check
+    @user = User.find_by_authentication_token(params[:authentication_token])
+    respond_to do |format|
+      if @user
+        ids = params[:ids]
+
+        if ids
+          for notification_id in ids
+            notification = Notification.find_by_id(notification_id)
+            if notification
+              notification.seen = 1
+              notification.save
+            end
+          end
+        end
+        format.json { render :json => { :message => "success"}}
+      else
+        format.json { render :json => { :message => "Invalid authentication token"}}
       end
     end
 

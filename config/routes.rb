@@ -1,7 +1,11 @@
 Frecipe::Application.routes.draw do
 
-  post 'notifications/user' => "notifications#user"
-  resources :notifications
+  resources :notifications do
+    collection do
+      post 'user'
+      post 'check'
+    end
+  end
 
 
   resources :comments

@@ -12,6 +12,12 @@ class User < ActiveRecord::Base
   has_many :follow_relationships, :class_name => "Follow", :foreign_key => "user_id"
   has_many :followers, :through => :follow_relationships, :source => :follower
 
+  has_many :following_relationships, :class_name => "Follow", :foreign_key => "follower_id"
+  has_many :following, :through => :following_relationships, :source => :user
+
+  has_many :liked_relationships, :class_name => "Like", :foreign_key => "user_id"
+  has_many :liked, :through => :liked_relationships, :source => :recipe
+  
   has_many :grocery_relationships, :class_name => "Grocery", :foreign_key => "user_id"
   has_many :groceries, :through => :grocery_relationships, :source => :ingredient
   has_many :recipes
