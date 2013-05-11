@@ -45,9 +45,9 @@ class User < ActiveRecord::Base
 	end
 
   def liked?(id)
-    recipe = Recipe.find(id)
+    recipe = Recipe.find_by_id(id)
 
-    if Like.where(:user_id => self.id, :recipe_id => recipe.id)
+    if Like.where(:user_id => self.id, :recipe_id => recipe.id).length > 0
       return true
     else
       return false
