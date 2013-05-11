@@ -7,20 +7,25 @@ class User < ActiveRecord::Base
 
 
   has_many :ingredient_relationships, :class_name => "UserIngredient", :foreign_key => "user_id"
-  has_many :ingredients, :through => :ingredient_relationships, :source => :ingredient
+  has_many :ingredients, :through => :ingredient_relationships, :source => :ingredient, :dependent => :destroy
   
   has_many :follow_relationships, :class_name => "Follow", :foreign_key => "user_id"
-  has_many :followers, :through => :follow_relationships, :source => :follower
+  has_many :followers, :through => :follow_relationships, :source => :follower, :dependent => :destroy
 
   has_many :following_relationships, :class_name => "Follow", :foreign_key => "follower_id"
-  has_many :following, :through => :following_relationships, :source => :user
+  has_many :following, :through => :following_relationships, :source => :user, :dependent => :destroy
 
   has_many :liked_relationships, :class_name => "Like", :foreign_key => "user_id"
-  has_many :liked, :through => :liked_relationships, :source => :recipe
+  has_many :liked, :through => :liked_relationships, :source => :recipe, :dependent => :destroy
   
   has_many :grocery_relationships, :class_name => "Grocery", :foreign_key => "user_id"
-  has_many :groceries, :through => :grocery_relationships, :source => :ingredient
-  has_many :recipes
+  has_many :groceries, :through => :grocery_relationships, :source => :ingredient, :dependent => :destroy
+  has_many :recipes, :dependent => :destroy
+  has_many :comments, :dependent => :destroy
+
+  has_many :notify, :class_name => "Notification", :foreign_key => "source_id", :dependent => :destroy
+  has_many :notified, :class_name => "Notification", :foreign_key => "target_id", :dependent => :destroy
+
 
   has_many :evaluations, class_name: "RSEvaluation", as: :source
   # Setup accessible (or protected) attributes for your model
