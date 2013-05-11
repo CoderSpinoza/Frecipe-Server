@@ -88,7 +88,7 @@ class NotificationsController < ApplicationController
       notifications_array = []
       count = 0
       for notification in notifications
-        notifications_array << { :id => notification.id, :category => notification.category, :source => notification.source, :target => notification.target, :recipe => notification.recipe, :seen => notification.seen }
+        notifications_array << { :id => notification.id, :category => notification.category, :source => notification.source, :target => notification.target, :recipe => notification.recipe, :seen => notification.seen, :profile_picture => notification.source.profile_picture.url }
         if notification.seen == 0
           count += 1
         end
