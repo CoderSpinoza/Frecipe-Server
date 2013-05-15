@@ -44,6 +44,7 @@ Frecipe::Application.routes.draw do
   match 'tokens/profile' => "tokens#profile"
   match 'tokens/detail' => "tokens#detail"
   get 'tokens/facebookAccounts' => "tokens#facebookAccounts"
+  get 'tokens/search' => "tokens#search"
   get 'tokens/:id' => "tokens#check"
   match 'tokens/facebook_check' => "tokens#facebook_check"
   

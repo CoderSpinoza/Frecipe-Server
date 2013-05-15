@@ -125,21 +125,4 @@ class UserIngredientsController < ApplicationController
       format.json { render :json => user }
     end
   end
-
-  def search
-    user = User.find_by_authentication_token(params[:authentication_token])
-    string = params[:search]
-    respond_to do |format|
-      if user
-        @recipes = Recipe.where("name ILIKE ?", string.downcase)
-        first = User.where("first_name ILIKE ?", string.downcase)
-        last = User.where("last_name ILIKE ?", string.downcase)
-        @users = first + last
-
-        format.json { render :json => { :message => :recipes => @recipes, :users => @users }}
-      else
-        format.json { render :json => { :message => "Invalid authentication token"}, :status => 404 }
-      end
-    end
-  end
 end
