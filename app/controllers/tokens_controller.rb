@@ -254,7 +254,7 @@ class TokensController < ApplicationController
         last = User.where("last_name ILIKE ?", string.downcase)
         @users = first + last
 
-        format.json { render :json => { :message => :recipes => @recipes, :users => @users }}
+        format.json { render :json => { :message => "success", :recipes => @recipes, :users => @users }}
       else
         format.json { render :json => { :message => "Invalid authentication token"}, :status => 404 }
       end
