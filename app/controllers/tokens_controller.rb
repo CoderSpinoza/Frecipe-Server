@@ -110,7 +110,7 @@ class TokensController < ApplicationController
 					following = "Following"
 				end
 				respond_to do |format|
-					format.json { render :json => { :user => profile, :profile_image => profile.profile_picture.url, :recipes => @recipes, :followers => profile.followers, :likes => numOfLikes, :most => mostPopularRecipe, :mostLikes => mostPopularRecipeLikes, :follow => following, :rating => user.average_rating, :liked => user.liked, :following => user.following }}
+					format.json { render :json => { :user => profile, :profile_image => profile.profile_picture.url, :recipes => @recipes, :followers => profile.followers, :likes => numOfLikes, :most => mostPopularRecipe, :mostLikes => mostPopularRecipeLikes, :follow => following, :rating => profile.average_rating, :liked => profile.liked, :following => profile.following }}
 				end
 
 			else
@@ -132,7 +132,7 @@ class TokensController < ApplicationController
 					end
 				end
 				respond_to do |format|
-					format.json { render :json => { :user => user, :profile_image => user.profile_picture.url, :recipes => @recipes, :followers => user.followers, :likes => numOfLikes, :most => mostPopularRecipe, :mostLikes => mostPopularRecipeLikes, :follow => following, :rating => user.average_rating, :liked => user.liked, :following => user.following }}
+					format.json { render :json => { :user => user, :profile_image => user.profile_picture.url, :recipes => @recipes, :followers => user.followers, :likes => numOfLikes, :most => mostPopularRecipe, :mostLikes => mostPopularRecipeLikes, :follow => following, :rating => profile.average_rating, :liked => profile.liked, :following => profile.following }}
 				end
 			end
 		else
@@ -142,61 +142,6 @@ class TokensController < ApplicationController
 			end
 		end
 
-	end
-
-	def detail
-		user = User.find_by_authentication_token(params[:authentication_token])
-		if user
-			profile = User.find_by_id(params[:id])
-
-			if profile and user != profile
-				recipes = profile.recipes
-				numOfLikes = 0
-				following = "Follow"
-				mostPopularRecipe = nil
-				mostPopularRecipeLikes = 0
-				@recipes = []
-				for recipe in recipes
-					@recipes << { :id => recipe.id, :recipe_name => recipe.name, :recipe_image => recipe.recipe_image.url, :user => recipe.user }
-					numOfLikes += recipe.likers.count
-					if mostPopularRecipe == nil or mostPopularRecipe.likers.count < recipe.likers.count
-						mostPopularRecipe = recipe
-						mostPopularRecipeLikes = mostPopularRecipe.likers.count
-					end
-				end
-
-				if profile.followers.include? user
-					following = "Following"
-				end
-				respond_to do |format|
-					format.json { render :json => { :user => profile, :profile_image => profile.profile_picture.url, :recipes => @recipes, :followers => profile.followers, :likes => numOfLikes, :most => mostPopularRecipe, :mostLikes => mostPopularRecipeLikes, :follow => following, :following => user.following, :liked => user.liked }}
-				end
-
-			else
-				recipes = user.recipes
-				numOfLikes = 0
-				following = "You"
-				mostPopularRecipe = nil
-				mostPopularRecipeLikes = 0
-				@recipes = []
-				for recipe in recipes
-					@recipes << { :id => recipe.id, :recipe_name => recipe.name, :recipe_image => recipe.recipe_image.url, :user => recipe.user }
-					numOfLikes += recipe.likers.count
-					if mostPopularRecipe == nil or mostPopularRecipe.likers.count < recipe.likers.count
-						mostPopularRecipe = recipe
-						mostPopularRecipeLikes = mostPopularRecipe.likers.count
-					end
-				end
-				respond_to do |format|
-					format.json { render :json => { :user => user, :profile_image => user.profile_picture.url, :recipes => @recipes, :followers => user.followers, :likes => numOfLikes, :most => mostPopularRecipe, :mostLikes => mostPopularRecipeLikes, :following => following, :following => user.following, :liked => user.liked  }}
-				end
-			end
-		else
-
-			respond_to do |format|
-				format.json { render :json => { :message => "Invalid authentication token"}}
-			end
-		end
 	end
 
 	def facebook_check
