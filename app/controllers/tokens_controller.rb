@@ -262,7 +262,7 @@ class TokensController < ApplicationController
         end
 
         for user in users
-        	@users << { :id => user.id, :first_name => user.first_name, :last_name => user.last_name, :profile_picture => user.profile_picture.url }
+        	@users << { :id => user.id, :first_name => user.first_name, :last_name => user.last_name, :profile_picture => user.profile_picture.url, :provider => user.provider, :uid => user.uid }
         end
 
         format.json { render :json => { :message => "success", :recipes => @recipes, :users => @users }}
