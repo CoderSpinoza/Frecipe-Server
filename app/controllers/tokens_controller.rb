@@ -249,10 +249,21 @@ class TokensController < ApplicationController
     string = params[:search]
     respond_to do |format|
       if user
-        @recipes = Recipe.where("name ILIKE ?", string.downcase + "%")
+        recipes = Recipe.where("name ILIKE ?", string.downcase + "%")
         first = User.where("first_name ILIKE ?", string.downcase + "%")
         last = User.where("last_name ILIKE ?", string.downcase + "%")
-        @users = first + last
+        users = first + last
+
+        @recipes = []
+        @users = []
+
+        for recipe in recipes
+        	@recipes << { :id => recipe.id, :name => recipe.name, :recipe_image => recipe.recipe_image.url }
+        end
+
+        for user in users
+        	@users << { :id => user.id, :first_name => user.first_name, :last_name => user.last_name, :profile_picture => user.profile_picture.url }
+        end
 
         format.json { render :json => { :message => "success", :recipes => @recipes, :users => @users }}
       else
