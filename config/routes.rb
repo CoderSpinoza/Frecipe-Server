@@ -1,5 +1,7 @@
 Frecipe::Application.routes.draw do
 
+  devise_for :user_sessions
+
   resources :notifications do
     collection do
       post 'user'

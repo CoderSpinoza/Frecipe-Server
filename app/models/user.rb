@@ -26,6 +26,7 @@ class User < ActiveRecord::Base
   has_many :notify, :class_name => "Notification", :foreign_key => "source_id", :dependent => :destroy
   has_many :notified, :class_name => "Notification", :foreign_key => "target_id", :dependent => :destroy
 
+  has_many :user_sessions
 
   has_many :evaluations, class_name: "RSEvaluation", as: :source
   # Setup accessible (or protected) attributes for your model
