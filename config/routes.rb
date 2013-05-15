@@ -39,16 +39,22 @@ Frecipe::Application.routes.draw do
   devise_for :users, :controllers => { :registrations => "registrations" }
 
 
-  match 'tokens/picture' => "tokens#picture"
+  # match 'tokens/picture' => "tokens#picture"
   match 'tokens/show' => "tokens#show"
   match 'tokens/profile' => "tokens#profile"
   match 'tokens/detail' => "tokens#detail"
-  get 'tokens/facebookAccounts' => "tokens#facebookAccounts"
-  get 'tokens/search' => "tokens#search"
+  # get 'tokens/facebookAccounts' => "tokens#facebookAccounts"
+  # get 'tokens/search' => "tokens#search"
   get 'tokens/:id' => "tokens#check"
   match 'tokens/facebook_check' => "tokens#facebook_check"
   
-  resources :tokens, :only => [:create, :destroy]
+  resources :tokens do
+    collection do
+      post 'picture'
+      get 'facebookAccounts'
+      get 'search'
+    end
+  end
 
 
   
