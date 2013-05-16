@@ -132,7 +132,7 @@ class TokensController < ApplicationController
 					end
 				end
 				respond_to do |format|
-					format.json { render :json => { :user => user, :profile_image => user.profile_picture.url, :recipes => @recipes, :followers => user.followers, :likes => numOfLikes, :most => mostPopularRecipe, :mostLikes => mostPopularRecipeLikes, :follow => following, :rating => profile.average_rating, :liked => profile.liked, :following => profile.following }}
+					format.json { render :json => { :user => user, :profile_image => user.profile_picture.url, :recipes => @recipes, :followers => user.followers, :likes => numOfLikes, :most => mostPopularRecipe, :mostLikes => mostPopularRecipeLikes, :follow => following, :rating => user.average_rating, :liked => user.liked, :following => user.following }}
 				end
 			end
 		else
