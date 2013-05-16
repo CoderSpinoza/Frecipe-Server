@@ -52,7 +52,8 @@ class FollowsController < ApplicationController
     #   end
     # end
 
-    user = User.find_by_authentication_token(params[:authentication_token])
+    user = UserSession.user_by_authentication_token(params[:authentication_token])
+
     follow = User.find_by_id(params[:followId])
 
     respond_to do |format|

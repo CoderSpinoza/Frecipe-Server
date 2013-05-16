@@ -50,7 +50,9 @@ class CommentsController < ApplicationController
   # POST /comments
   # POST /comments.json
   def create
-    user = User.find_by_authentication_token(params[:authentication_token])
+    session = UserSession.find_by_authentication_token(params[:authentication_token])
+    user = session.user
+    
     respond_to do |format|
       if user
         @comment = Comment.new(:user_id => user.id, :recipe_id => params[:recipe_id], :text => params[:text])

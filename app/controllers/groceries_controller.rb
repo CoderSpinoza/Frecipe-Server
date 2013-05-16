@@ -40,7 +40,7 @@ class GroceriesController < ApplicationController
   # POST /groceries
   # POST /groceries.json
   def create
-    user = User.find_by_authentication_token(params[:authentication_token])
+    user = UserSession.user_by_authentication_token(params[:authentication_token])
     names = params[:groceries].split(',')
     @groceries = []
     for name in names
@@ -89,7 +89,7 @@ class GroceriesController < ApplicationController
 
   def list
 
-    user = User.find_by_authentication_token(params[:authentication_token])
+    user = UserSession.user_by_authentication_token(params[:authentication_token])
     respond_to do |format|
       if user
         format.json { render :json => user.groceries }
@@ -100,7 +100,7 @@ class GroceriesController < ApplicationController
   end
 
   def multiple_delete
-    user = User.find_by_authentication_token(params[:authentication_token])
+    user = UserSession.user_by_authentication_token(params[:authentication_token])
     respond_to do |format|
       if user
         ingredients_array = params[:ids]
@@ -121,7 +121,7 @@ class GroceriesController < ApplicationController
   end
 
   def fridge
-    user = User.find_by_authentication_token(params[:authentication_token])
+    user = UserSession.user_by_authentication_token(params[:authentication_token])
     respond_to do |format|
       if user
         ingredients_array = params[:ids]

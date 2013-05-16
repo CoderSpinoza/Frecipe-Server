@@ -2,13 +2,9 @@ class DeviseCreateUserSessions < ActiveRecord::Migration
   def change
     create_table(:user_sessions) do |t|
       ## Database authenticatable
-      t.string :email,              :null => false, :default => ""
-      t.string :encrypted_password, :null => false, :default => ""
 
-      ## Recoverable
-      t.string   :reset_password_token
-      t.datetime :reset_password_sent_at
-
+      t.references :user
+      t.string :device
       ## Rememberable
       t.datetime :remember_created_at
 
@@ -31,16 +27,13 @@ class DeviseCreateUserSessions < ActiveRecord::Migration
       # t.datetime :locked_at
 
       ## Token authenticatable
-      # t.string :authentication_token
+      t.string :authentication_token
 
 
       t.timestamps
     end
-
-    add_index :user_sessions, :email,                :unique => true
-    add_index :user_sessions, :reset_password_token, :unique => true
     # add_index :user_sessions, :confirmation_token,   :unique => true
     # add_index :user_sessions, :unlock_token,         :unique => true
-    # add_index :user_sessions, :authentication_token, :unique => true
+    add_index :user_sessions, :authentication_token, :unique => true
   end
 end

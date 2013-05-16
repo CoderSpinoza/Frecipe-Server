@@ -12,9 +12,14 @@ class TokensController < ApplicationController
 			if @user.nil?
 				render :status => 401, :json => { :message => "Invalid email" }
 			else 
-				@user.ensure_authentication_token!
 				if @user.valid_password?(password)
-					render :status => 200, :json => { :token => @user.authentication_token, :user => @user, :profile_picture => @user.profile_picture.url }
+					@session = UserSession.new(:user => @user)
+					if @session.save
+						@session.ensure_authentication_token!
+						render :status => 200, :json => { :token => @session.authentication_token, :user => @user, :profile_picture => @user.profile_picture.url }
+					else
+						render :status => 401, :json => { :user => @user, :message => "session creation failed"}
+					end
 				else
 					render :status => 401, :json => { :user => @user, :message => "Invalid password"}
 				end
@@ -23,7 +28,7 @@ class TokensController < ApplicationController
 	end
 
 	def check
-		@user = User.find_by_authentication_token(params[:id])
+		@user = UserSession.find_by_authentication_token(params[:id])
 
 		if @user
 			render :status => 200, :json => { :message => "success", :user => @user}
@@ -63,7 +68,7 @@ class TokensController < ApplicationController
 	end
 
 	def destroy
-		@user = User.find_by_authentication_token(params[:id])
+		@user = UserSession.find_by_authentication_token(params[:id])
 		
 		if @user.nil?
 			render :status => 404, :json => { :message => "Invalid token"}
@@ -74,16 +79,18 @@ class TokensController < ApplicationController
 	end
 
 	def show
-		@user = User.find_by_authentication_token(params[:authentication_token])
+		@session = UserSession.find_by_authentication_token(params[:authentication_token])
 		if @user.nil?
 			render :status => 404, :json => { :message => params[:authentication_token]}
 		else
+			@user = @session.user
 			render :status => 200, :json => { :user => @user, :image => @user.profile_picture.url }
 		end		
 	end
 
 	def profile
-		user = User.find_by_authentication_token(params[:authentication_token])
+		session = UserSession.find_by_authentication_token(params[:authentication_token])
+		user = session.user
 		if user
 			profile = User.find_by_id(params[:id])
 
@@ -153,7 +160,9 @@ class TokensController < ApplicationController
 
 		respond_to do |format|
 			if @user
-				format.json { render :json => { :message => "currently registered user", :user => @user, :profile_picture => @user.profile_picture.url, :token => @user.authentication_token }}
+				@session = UserSession.create(:user => @user)
+				@session.ensure_authentication_token!
+				format.json { render :json => { :message => "currently registered user", :user => @user, :profile_picture => @user.profile_picture.url, :token => @session.authentication_token }}
 			else
 				@email_user = User.find_by_email(email)
 				if @email_user
@@ -161,7 +170,9 @@ class TokensController < ApplicationController
 					@email_user.uid = uid
 
 					if @email_user.save
-						format.json { render :json => { :message => "currently registered email", :user => @email_user, :profile_picture => @user.profile_picture.url, :token => @email_user.authentication_token}}
+						@session = UserSession.create(:user => @email_user)
+						@session.ensure_authentication_token!
+						format.json { render :json => { :message => "currently registered email", :user => @email_user, :profile_picture => @user.profile_picture.url, :token => @session.authentication_token}}
 					else
 					format.json { render :json => { :message => "There was an error registering"}}
 					end
@@ -190,7 +201,8 @@ class TokensController < ApplicationController
 	end
 
 	def search
-    user = User.find_by_authentication_token(params[:authentication_token])
+    session = UserSession.find_by_authentication_token(params[:authentication_token])
+    user = session.user
     string = params[:search]
     respond_to do |format|
       if user

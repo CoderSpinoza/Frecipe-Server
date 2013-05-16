@@ -41,7 +41,8 @@ class RecipesController < ApplicationController
   # POST /recipes.json
   def create
 
-    @user = User.find_by_authentication_token(params[:authentication_token])
+    @session = UserSession.find_by_authentication_token(params[:authentication_token])
+    @user = @session.user
     @recipe = Recipe.new(:name => params[:recipe_name].downcase.titleize)
     ingredients = params[:ingredients].split(',')
     directions = params[:steps]
@@ -69,8 +70,8 @@ class RecipesController < ApplicationController
   # PUT /recipes/1
   # PUT /recipes/1.json
   def update
-    user = User.find_by_authentication_token(params[:authentication_token])
-
+    session = UserSession.find_by_authentication_token(params[:authentication_token])
+    user = session.user
     respond_to do |format|
       if user
         @recipe = Recipe.find_by_id(params[:recipe_id])
@@ -106,8 +107,8 @@ class RecipesController < ApplicationController
   # DELETE /recipes/1.json
   def destroy
     @recipe = Recipe.find_by_id(params[:id])
-    user = User.find_by_authentication_token(params[:authentication_token])
-
+    session = UserSession.find_by_authentication_token(params[:authentication_token])
+    user = session.user
     respond_to do |format|
       if user
         if @recipe
@@ -124,7 +125,8 @@ class RecipesController < ApplicationController
   # custom methods
 
   def user
-    user = User.find_by_authentication_token(params[:authentication_token])
+    session = UserSession.find_by_authentication_token(params[:authentication_token])
+    user = session.user
     recipes = user.recipes
 
     json = []
@@ -141,7 +143,8 @@ class RecipesController < ApplicationController
   end
 
   def possible
-    user = User.find_by_authentication_token(params[:authentication_token])
+    session = UserSession.find_by_authentication_token(params[:authentication_token])
+    user = session.user
     recipes = Recipe.all
 
     json = []
@@ -163,7 +166,8 @@ class RecipesController < ApplicationController
 
   def detail
     recipe = Recipe.find(params[:id])
-    user = User.find_by_authentication_token(params[:authentication_token])
+    session = UserSession.find_by_authentication_token(params[:authentication_token])
+    user = session.user
 
     isOwner = 0
     if recipe.user == user
@@ -187,7 +191,8 @@ class RecipesController < ApplicationController
   end
 
   def rate
-    user = User.find_by_authentication_token(params[:authentication_token])
+    session = UserSession.find_by_authentication_token(params[:authentication_token])
+    user = session.user
 
     respond_to do |format|
       if user

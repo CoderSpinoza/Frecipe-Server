@@ -82,7 +82,7 @@ class NotificationsController < ApplicationController
   end
 
   def user
-    @user = User.find_by_authentication_token(params[:authentication_token])
+    @user = UserSession.user_by_authentication_token(params[:authentication_token])
     if @user
       notifications = Notification.where(:target_id => @user.id)
       notifications_array = []
@@ -105,7 +105,7 @@ class NotificationsController < ApplicationController
   end
 
   def check
-    @user = User.find_by_authentication_token(params[:authentication_token])
+    @user = UserSession.user_by_authentication_token(params[:authentication_token])
     respond_to do |format|
       if @user
         ids = params[:ids]

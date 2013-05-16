@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130506073851) do
+ActiveRecord::Schema.define(:version => 20130514224528) do
 
   create_table "comments", :force => true do |t|
     t.integer  "user_id"
@@ -152,6 +152,22 @@ ActiveRecord::Schema.define(:version => 20130506073851) do
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end
+
+  create_table "user_sessions", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "device"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",        :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.string   "authentication_token"
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
+  end
+
+  add_index "user_sessions", ["authentication_token"], :name => "index_user_sessions_on_authentication_token", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "email",                        :default => "", :null => false

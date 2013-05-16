@@ -19,7 +19,7 @@ class UserIngredientsController < ApplicationController
     #   format.html # show.html.erb
     #   format.json { render json: @user_ingredient }
     # end
-    user = User.find_by_authentication_token(params[:id])
+    user = UserSession.user_by_authentication_token(params[:id])
     ingredients = user.ingredients
     
     respond_to do |format|
@@ -47,7 +47,7 @@ class UserIngredientsController < ApplicationController
   # POST /user_ingredients.json
   def create
 
-    user = User.find_by_authentication_token(params[:id])
+    user = UserSession.user_by_authentication_token(params[:id])
     names = params[:ingredients].split(",")
     @user_ingredients = []
     for name in names
@@ -96,7 +96,7 @@ class UserIngredientsController < ApplicationController
     #     format.json { render :json => ["failure"]}
     #   end
     # end
-    user = User.find_by_authentication_token(params[:authentication_token])
+    user = UserSession.user_by_authentication_token(params[:authentication_token])
 
     if @user_ingredient = UserIngredient.where(:user_id => user.id, :ingredient_id => params[:id])
       @user_ingredient[0].destroy

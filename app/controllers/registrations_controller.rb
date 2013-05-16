@@ -9,9 +9,19 @@ class RegistrationsController < Devise::RegistrationsController
     if resource.save
       if resource.active_for_authentication?
         sign_up(resource_name, resource)
+        # session = UserSession.
         resource.ensure_authentication_token!
-        respond_to do |format|
-          format.json { render :json => ["success", resource, resource.authentication_token, resource.profile_picture.url ]}
+        session = UserSession.new(:user => resource)
+
+        if session.save
+          session.ensure_authentication_token!
+          respond_to do |format|
+            format.json { render :json => ["success", resource, session.authentication_token, resource.profile_picture.url ]}
+          end
+        else
+          respond_to do |format|
+            format.json { render :json => ["session creation failed", resource]}
+          end
         end
       else
         expire_session_data_after_sign_in!

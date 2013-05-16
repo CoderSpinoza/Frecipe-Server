@@ -51,7 +51,7 @@ class LikesController < ApplicationController
     #     format.json { render json: @like.errors, status: :unprocessable_entity }
     #   end
     # end
-    user = User.find_by_authentication_token(params[:authentication_token])
+    user = UserSession.user_by_authentication_token(params[:authentication_token])
     recipe = Recipe.find(params[:id])
     @exists = Like.where(:user_id => user, :recipe_id => recipe.id)
     if @exists.empty?
