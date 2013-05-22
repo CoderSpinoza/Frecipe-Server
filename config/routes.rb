@@ -1,5 +1,10 @@
 Frecipe::Application.routes.draw do
 
+  resources :grocery_recipes do
+    collection do
+      post 'multiple_delete'
+    end
+  end
   devise_for :user_sessions
 
   resources :notifications do
@@ -8,7 +13,6 @@ Frecipe::Application.routes.draw do
       post 'check'
     end
   end
-
 
   resources :comments
 

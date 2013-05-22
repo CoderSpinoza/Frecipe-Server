@@ -41,13 +41,32 @@ class GroceriesController < ApplicationController
   # POST /groceries.json
   def create
     user = UserSession.user_by_authentication_token(params[:authentication_token])
-    names = params[:groceries].split(',')
-    @groceries = []
-    for name in names
-      ingredient = Ingredient.find_or_create_by_name(name.downcase.titleize)
-      grocery = Grocery.new(:user => user, :ingredient => ingredient)
-      if grocery.save
-        @groceries << grocery
+    
+    if params[:recipe_id]
+      groceryRecipe = GroceryRecipe.find_or_create_by_user_id_and_recipe_id(user.id, params[:recipe_id])
+      @groceries = []
+
+      if params[:groceries]
+        names = params[:groceries].split(',')
+        for name in names
+          ingredient = Ingredient.find_or_create_by_name(name.downcase.titleize)
+          grocery = Grocery.new(:grocery_recipe => groceryRecipe, :ingredient => ingredient)
+          if grocery.save
+            @groceries << grocery
+          end
+        end
+      end
+    else
+      @groceries = []
+      if params[:groceries]
+        names = params[:groceries].split(',')
+        for name in names
+          ingredient = Ingredient.find_or_create_by_name(name.downcase.titleize)
+          grocery = Grocery.new(:grocery_recipe_id => 1, :ingredient => ingredient)
+          if grocery.save
+            @groceries << grocery
+          end
+        end
       end
     end
     respond_to do |format|
@@ -90,9 +109,10 @@ class GroceriesController < ApplicationController
   def list
 
     user = UserSession.user_by_authentication_token(params[:authentication_token])
+    
     respond_to do |format|
       if user
-        format.json { render :json => user.groceries }
+        format.json { render :json => user.grocery_list }
       else
         format.json { render :json => { :message => "Invalide authentication token"}}
       end
@@ -106,14 +126,15 @@ class GroceriesController < ApplicationController
         ingredients_array = params[:ids]
         @output_array = []
         if ingredients_array
-          for i in ingredients_array
-            if grocery = Grocery.find_by_user_id_and_ingredient_id(user.id, i)
-              grocery.destroy
-              @output_array << grocery
-            end
+          for grocery_recipe in user.grocery_recipes
+            grocery_recipe.groceries.each { |grocery| 
+              if ingredients_array.include? grocery.ingredient_id.to_s
+                grocery.active = 0; grocery.save!
+              end 
+            }
           end
         end
-        format.json { render :json => { :message => "success", :groceries => @output_array }}
+        format.json { render :json => { :message => "success", :grocery_list => user.grocery_list }}
       else
         format.json { render :json => { :message => "Invalid authentication token"}}
       end
@@ -128,19 +149,24 @@ class GroceriesController < ApplicationController
         @groceries_array = []
         @fridge_array = []
         if ingredients_array
-          for i in ingredients_array
-            if grocery = Grocery.find_by_user_id_and_ingredient_id(user.id, i)
-              grocery.destroy
-              user_ingredient = UserIngredient.new(:user_id => user.id, :ingredient_id => i)
-
-              if user_ingredient.save
-                @fridge_array << Ingredient.find_by_id(i)
-              end
-              @groceries_array << Ingredient.find_by_id(i)
-            end
+          # for i in ingredients_array
+          #   if grocery = Grocery.find_by_user_id_and_ingredient_id(user.id, i)
+          #     grocery.destroy
+          #     user_ingredient = UserIngredient.new(:user_id => user.id, :ingredient_id => i)
+          #     if user_ingredient.save
+          #       @fridge_array << Ingredient.find_by_id(i)
+          #     end
+          #     @groceries_array << Ingredient.find_by_id(i)
+          #   end
+          # end
+          
+          for grocery_recipe in user.grocery_recipes
+            grocery_recipe.groceries.where(:ingredient_id => ingredients_array).destroy_all
           end
+          fridge_array = ingredients_array.map { |x| { :user_id => user.id, :ingredient_id => x}}.compact
+          @fridge_array = UserIngredient.create(fridge_array)
         end
-        format.json { render :json => { :message => "success", :groceries => @groceries_array, :fridge => @fridge_array }}
+        format.json { render :json => { :message => "success", :grocery_list => user.grocery_list }}
       else
         format.json { render :json => { :message => "Invalid authentication token"}}
       end

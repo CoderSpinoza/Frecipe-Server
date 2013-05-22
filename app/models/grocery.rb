@@ -1,9 +1,9 @@
 class Grocery < ActiveRecord::Base
   # attr_accessible :title, :body
-
-  belongs_to :user
+  default_scope order('created_at')
+  belongs_to :grocery_recipe
   belongs_to :ingredient
-  attr_accessible :user, :ingredient, :user_id, :ingredient_id
+  attr_accessible :grocery_recipe, :ingredient, :grocery_recipe_id, :ingredient_id, :active
 
-  validates :user_id, :uniqueness => { :scope => :ingredient_id }
+  validates :grocery_recipe_id, :uniqueness => { :scope => :ingredient_id }
 end

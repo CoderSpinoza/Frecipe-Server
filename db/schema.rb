@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130514224528) do
+ActiveRecord::Schema.define(:version => 20130517005558) do
 
   create_table "comments", :force => true do |t|
     t.integer  "user_id"
@@ -49,18 +49,32 @@ ActiveRecord::Schema.define(:version => 20130514224528) do
   add_index "follows", ["user_id", "follower_id"], :name => "index_follows_on_user_id_and_follower_id", :unique => true
 
   create_table "groceries", :force => true do |t|
-    t.integer  "user_id"
+    t.integer  "grocery_recipe_id"
     t.integer  "ingredient_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.integer  "active",            :default => 1
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
   end
 
-  add_index "groceries", ["user_id", "ingredient_id"], :name => "index_groceries_on_user_id_and_ingredient_id", :unique => true
+  add_index "groceries", ["grocery_recipe_id", "ingredient_id"], :name => "index_groceries_on_grocery_recipe_id_and_ingredient_id", :unique => true
+
+  create_table "grocery_recipes", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "recipe_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "grocery_recipes", ["user_id", "recipe_id"], :name => "index_grocery_recipes_on_user_id_and_recipe_id", :unique => true
 
   create_table "ingredients", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
   end
 
   create_table "likes", :force => true do |t|

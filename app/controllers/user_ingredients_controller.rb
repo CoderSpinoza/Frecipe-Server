@@ -20,10 +20,10 @@ class UserIngredientsController < ApplicationController
     #   format.json { render json: @user_ingredient }
     # end
     user = UserSession.user_by_authentication_token(params[:id])
-    ingredients = user.ingredients
+    @ingredients = user.ingredients.map { |ingredient| { :id => ingredient.id, :name => ingredient.name, :image => ingredient.image.url }}.compact
     
     respond_to do |format|
-      format.json { render :json => ingredients }
+      format.json { render :json => @ingredients }
     end
   end
 
@@ -57,6 +57,14 @@ class UserIngredientsController < ApplicationController
 
       if user_ingredient.save
         @user_ingredients << user_ingredient
+        grocery_recipes = user.grocery_recipes
+        for grocery_recipe in grocery_recipes
+          grocery_recipe.groceries.each { |grocery|
+            if grocery.ingredient_id == ingredient.id
+              grocery.destroy
+            end
+          }
+        end
       end
     end
     respond_to do |format|
@@ -109,7 +117,7 @@ class UserIngredientsController < ApplicationController
   # custom methods
 
   def multiple_delete
-    user = User.find_by_authentication_token(params[:authentication_token])
+    user = UserSession.user_by_authentication_token(params[:authentication_token])
     ingredient_array = params[:ids]
     @output_array = []
     if ingredient_array

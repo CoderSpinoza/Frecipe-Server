@@ -28,6 +28,10 @@ class User < ActiveRecord::Base
 
   has_many :user_sessions
 
+  has_many :grocery_recipe_relationships, :class_name => "GroceryRecipe", :foreign_key => "user_id"
+  has_many :recipes_for_grocery, :through => :grocery_recipe_relationships, :source => :recipe, :dependent => :destroy
+
+  has_many :grocery_recipes
   has_many :evaluations, class_name: "RSEvaluation", as: :source
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :provider, :uid, :authentication_token, :profile_picture, :level
@@ -89,6 +93,26 @@ class User < ActiveRecord::Base
     for follower in self.followers
       Notification.create(:source => self, :target => follower, :recipe => recipe, :category => "upload", :seen => 0)
     end
+  end
+
+  def grocery_list
+    recipes = self.recipes_for_grocery
+    grocery_recipes = []
+
+    # for recipe in recipes
+    #   difference = recipe.
+    #   grocery_recipes << { :id => recipe.id, :name => recipe.name, :recipe_image => recipe.recipe_image.url, :missing_ingredients => set_difference }
+    # end
+
+    groceries = []
+    for grocery_recipe in self.grocery_recipes
+      if grocery_recipe.recipe_id != 0
+        grocery_recipes << { :id => grocery_recipe.id, :name => grocery_recipe.recipe.name, :recipe_image => grocery_recipe.recipe.recipe_image.url, :missing_ingredients => grocery_recipe.ingredients, :groceries => grocery_recipe.groceries }
+      else
+        groceries = grocery_recipe.ingredients
+      end
+    end
+    return { :groceries => groceries, :recipes => grocery_recipes }
   end
 
 end

@@ -29,7 +29,6 @@ class TokensController < ApplicationController
 
 	def check
 		@user = UserSession.find_by_authentication_token(params[:id])
-
 		if @user
 			render :status => 200, :json => { :message => "success", :user => @user}
 		else
