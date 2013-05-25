@@ -40,7 +40,7 @@ class IngredientsController < ApplicationController
   # POST /ingredients
   # POST /ingredients.json
   def create
-    @ingredient = Ingredient.new(params[:ingredient])
+    @ingredient = Ingredient.new(:name => params[:ingredient][:name].titleize, :image => params[:ingredient][:image])
 
     respond_to do |format|
       if @ingredient.save

@@ -9,4 +9,6 @@ class Ingredient < ActiveRecord::Base
   has_attached_file :image, :path => "public/image/ingredients/:id/:filename", :url => "image/ingredients/:id/:filename", :default_url => "https://s3.amazonaws.com/Frecipe/public/image/ingredients/default_ingredient_image.png", :s3_permissions => "public_read_write"
   validates_attachment_size :image, :less_than => 5.megabytes
 	validates_attachment_content_type :image, :content_type => ['image/jpeg', 'image/png']
+
+	validates :name, :uniqueness => true
 end
