@@ -228,5 +228,22 @@ class TokensController < ApplicationController
     end
   end
 
+  def update
+  	user = UserSession.user_by_authentication_token(params[:authentication_token])
+  	respond_to do |format|
+  		if user
+  			user.first_name = params[:first_name].strip.titleize
+  			user.last_name = params[:last_name].strip.titleize
+  			user.about = params[:about].strip
+  			user.website = params[:website].strip
+  			user.save!
+
+  			format.json { render :json => { :message => "success", :user => user}}
+  		else
+  			format.json { render :json => {:message => "Invalid authentication token"}, :status => 404}
+  		end
+  	end
+  end
+
 
 end

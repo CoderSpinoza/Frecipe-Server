@@ -50,13 +50,15 @@ Frecipe::Application.routes.draw do
   # get 'tokens/facebookAccounts' => "tokens#facebookAccounts"
   # get 'tokens/search' => "tokens#search" 
   match 'tokens/facebook_check' => "tokens#facebook_check"
-  
+  post 'tokens/update' => "tokens#update"
   resources :tokens do
     collection do
+      post 'update'
       post 'picture'
       get 'facebookAccounts'
       get 'search'
       get 'tokens/:id' => "tokens#check"
+
     end
   end
 
