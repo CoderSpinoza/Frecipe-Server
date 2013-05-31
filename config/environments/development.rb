@@ -36,6 +36,7 @@ Frecipe::Application.configure do
   config.assets.debug = true
   config.serve_static_assets = true
 
+  config.action_mailer.default_url_options = { :host => 'localhost' }
   Paperclip::Attachment.default_options.merge!({
     :storage => :filesystem
   })

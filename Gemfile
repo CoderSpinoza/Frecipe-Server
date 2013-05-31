@@ -17,7 +17,7 @@ gem 'activerecord-reputation-system'
 gem 'delayed_job_active_record'
 gem 'daemons'
 gem 'twitter-bootstrap-rails'
-gem 'mail'
+gem 'actionmailer'
 
 gem 'memcachier'
 gem 'dalli'

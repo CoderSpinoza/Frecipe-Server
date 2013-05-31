@@ -245,5 +245,16 @@ class TokensController < ApplicationController
   	end
   end
 
+  def reset
+  	@user = User.find_by_email(params[:email])
+  	respond_to do |format|
+	  	if @user
+	  		@user.send_reset_password_instructions
+	  		format.json { render :json => { :message => "success"}}
+	  	else
+	  		format.json { render :json => { :message => "failure"}, :status => 404 }
+	  	end
+	  end
+  end
 
 end

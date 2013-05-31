@@ -47,12 +47,10 @@ Frecipe::Application.routes.draw do
   match 'tokens/show' => "tokens#show"
   match 'tokens/profile' => "tokens#profile"
   match 'tokens/detail' => "tokens#detail"
-  # get 'tokens/facebookAccounts' => "tokens#facebookAccounts"
-  # get 'tokens/search' => "tokens#search" 
-  # match 'tokens/facebook_check' => "tokens#facebook_check"
-  # post 'tokens/update' => "tokens#update"
+
   resources :tokens do
     collection do
+      post 'reset'
       post 'facebook_check'
       put 'update'
       post 'picture'
