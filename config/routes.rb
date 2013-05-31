@@ -65,7 +65,7 @@ Frecipe::Application.routes.draw do
 
   
   # match 'users/remember' => "sessions#remember"
-  root :to => "home#index"
+  root :to => "user_sessions#index"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

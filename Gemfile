@@ -16,6 +16,8 @@ gem 'omniauth-facebook', '1.4.0'
 gem 'activerecord-reputation-system'
 gem 'delayed_job_active_record'
 gem 'daemons'
+gem 'twitter-bootstrap-rails'
+
 
 gem 'memcachier'
 gem 'dalli'
