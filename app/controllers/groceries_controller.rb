@@ -62,9 +62,12 @@ class GroceriesController < ApplicationController
         names = params[:groceries].split(',')
         for name in names
           ingredient = Ingredient.find_or_create_by_name(name.downcase.titleize)
-          grocery = Grocery.new(:grocery_recipe_id => 1, :ingredient => ingredient)
-          if grocery.save
-            @groceries << grocery
+          grocery_recipe = GroceryRecipe.find_by_user_id_and_recipe_id(user.id, 0)
+          if grocery_recipe
+            grocery = Grocery.new(:grocery_recipe_id => grocery_recipe.id, :ingredient => ingredient)
+            if grocery.save
+              @groceries << grocery
+            end
           end
         end
       end
@@ -124,7 +127,6 @@ class GroceriesController < ApplicationController
     respond_to do |format|
       if user
         ingredients_array = params[:ids]
-        @output_array = []
         if ingredients_array
           for grocery_recipe in user.grocery_recipes
             grocery_recipe.groceries.each { |grocery| 
@@ -132,6 +134,9 @@ class GroceriesController < ApplicationController
                 grocery.active = 0; grocery.save!
               end 
             }
+            if grocery_recipe.recipe_id == 0
+              grocery_recipe.ingredients.destroy_all
+            end
           end
         end
         format.json { render :json => { :message => "success", :grocery_list => user.grocery_list }}
