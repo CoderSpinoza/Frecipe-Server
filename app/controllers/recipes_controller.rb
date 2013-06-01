@@ -59,7 +59,7 @@ class RecipesController < ApplicationController
 
     respond_to do |format|
       if @recipe.save
-        @user.notify(@recipe)
+        @user.upload_notification(@recipe)
         format.json { render :json => @recipe.ingredients }
       else
         format.json { render json: @recipe.errors, status: :unprocessable_entity }
