@@ -51,6 +51,7 @@ Frecipe::Application.routes.draw do
   resources :tokens do
     collection do
       post 'reset'
+      post 'password'
       post 'facebook_check'
       put 'update'
       post 'picture'

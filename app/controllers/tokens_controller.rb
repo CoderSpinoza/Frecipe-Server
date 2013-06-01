@@ -257,4 +257,24 @@ class TokensController < ApplicationController
 	  end
   end
 
+  def password
+  	user = UserSession.user_by_authentication_token(params[:authentication_token])
+  	respond_to do |format|
+  		if user
+  			if user.valid_password?(params[:current_password])
+	  			user.password = params[:new_password]
+	  			if user.save!
+	  				format.json { render :json => { :message => "success"}}
+	  			else
+	  				format.json { render :json => { :message => "failure"}, :status => 503 }
+	  			end
+	  		else
+	  			format.json { render :json => { :message => "Wrong password!"}, :status => 404}
+	  		end
+  		else
+  			format.json { render :json => { :message => "Invalid authentication token"}, :status => 404 }
+  		end
+  	end
+  end
+
 end
