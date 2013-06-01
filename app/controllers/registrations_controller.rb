@@ -16,7 +16,7 @@ class RegistrationsController < Devise::RegistrationsController
         if session.save
           session.ensure_authentication_token!
           grocery_recipe = GroceryRecipe.create(:user => resource, :recipe_id => 0)
-          UserMailer.welcome(resource)
+          UserMailer.welcome(resource).deliver
           respond_to do |format|
             format.json { render :json => ["success", resource, session.authentication_token, resource.profile_picture.url ]}
           end

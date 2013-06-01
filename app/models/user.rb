@@ -18,8 +18,6 @@ class User < ActiveRecord::Base
   has_many :liked_relationships, :class_name => "Like", :foreign_key => "user_id"
   has_many :liked, :through => :liked_relationships, :source => :recipe, :dependent => :destroy
   
-  has_many :grocery_relationships, :class_name => "Grocery", :foreign_key => "user_id"
-  has_many :groceries, :through => :grocery_relationships, :source => :ingredient, :dependent => :destroy
   has_many :recipes, :dependent => :destroy
   has_many :comments, :dependent => :destroy
 
@@ -31,7 +29,7 @@ class User < ActiveRecord::Base
   has_many :grocery_recipe_relationships, :class_name => "GroceryRecipe", :foreign_key => "user_id"
   has_many :recipes_for_grocery, :through => :grocery_recipe_relationships, :source => :recipe, :dependent => :destroy
 
-  has_many :grocery_recipes
+  has_many :grocery_recipes, :dependent => :destroy
   has_many :evaluations, class_name: "RSEvaluation", as: :source
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :provider, :uid, :authentication_token, :profile_picture, :level, :about, :website
