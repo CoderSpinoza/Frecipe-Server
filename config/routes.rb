@@ -18,8 +18,12 @@ Frecipe::Application.routes.draw do
 
   match 'groceries/list' => "groceries#list"
   match 'groceries/multiple_delete' => "groceries#multiple_delete"
-  post 'groceries/fridge' => "groceries#fridge"
-  resources :groceries
+  resources :groceries do 
+    collection do
+      post 'fridge'
+      post 'recover'
+    end
+  end
 
   resources :likes
 

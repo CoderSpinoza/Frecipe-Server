@@ -115,9 +115,9 @@ class GroceriesController < ApplicationController
     
     respond_to do |format|
       if user
-        format.json { render :json => user.grocery_list }
+        format.json { render :json => { :message => "success", :grocery_list => user.grocery_list }}
       else
-        format.json { render :json => { :message => "Invalide authentication token"}}
+        format.json { render :json => { :message => "Invalide authentication token"}, :status => 404 }
       end
     end
   end
@@ -176,5 +176,9 @@ class GroceriesController < ApplicationController
         format.json { render :json => { :message => "Invalid authentication token"}}
       end
     end
+  end
+
+  def recover
+
   end
 end

@@ -15,6 +15,7 @@ class Recipe < ActiveRecord::Base
 
   has_many :notifications, :dependent => :destroy
 
+  has_many :grocery_recipes, :dependent => :destroy
 
   has_attached_file :recipe_image, :path => "public/image/recipes/:id/:filename", :url => "image/recipes/:id/:filename", :default_url => "https://s3.amazonaws.com/Frecipe/public/image/recipe/default_recipe_image.png", :s3_permissions => "public_read_write"
 
