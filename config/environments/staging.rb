@@ -65,10 +65,10 @@ Frecipe::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
-  config.action_mailer.default_url_options = { :host => 'intense-cove-3838.herokuapp.com' }
+  config.action_mailer.default_url_options = { :host => 'fast-ravine-6720.herokuapp.com' }
   Paperclip::Attachment.default_options.merge!({
     :storage => :s3,
-    :bucket => 'FrecipeProduction',
+    :bucket => 'Frecipe',
     :s3_credentials => {
       :access_key_id => "AKIAIJK5C4GFDENWV2BA",
       :secret_access_key => "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"
