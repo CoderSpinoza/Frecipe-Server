@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(:version => 20130602034746) do
     t.integer  "active",            :default => 1
     t.datetime "created_at",                       :null => false
     t.datetime "updated_at",                       :null => false
-    t.integer  "fridge"
+    t.integer  "fridge", :default => 1
   end
 
   add_index "groceries", ["grocery_recipe_id", "ingredient_id"], :name => "index_groceries_on_grocery_recipe_id_and_ingredient_id", :unique => true

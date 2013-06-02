@@ -69,6 +69,9 @@ Frecipe::Application.configure do
   Paperclip::Attachment.default_options.merge!({
     :storage => :s3,
     :bucket => 'FrecipeProduction',
-    :s3_credentials => S3_CREDENTIALS
+    :s3_credentials => {
+      :access_key_id => ENV['S3_KEY'],
+      :secret_access_key => ENV['S3_SECRET']
+    }
   })
 end

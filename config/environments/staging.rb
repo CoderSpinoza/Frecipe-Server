@@ -70,8 +70,8 @@ Frecipe::Application.configure do
     :storage => :s3,
     :bucket => 'Frecipe',
     :s3_credentials => {
-      :access_key_id => "AKIAIJK5C4GFDENWV2BA",
-      :secret_access_key => "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"
+      :access_key_id => ENV['S3_KEY'],
+      :secret_access_key => ENV['S3_SECRET']
     }
   })
 end
