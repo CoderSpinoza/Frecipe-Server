@@ -4,6 +4,7 @@ class CreateGroceries < ActiveRecord::Migration
     	t.references :grocery_recipe
     	t.references :ingredient
     	t.integer :active, :default => 1
+    	t.integer :fridge, :default => 1
       t.timestamps
     end
 

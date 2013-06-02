@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130530225245) do
+ActiveRecord::Schema.define(:version => 20130602034746) do
 
   create_table "comments", :force => true do |t|
     t.integer  "user_id"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(:version => 20130530225245) do
     t.integer  "active",            :default => 1
     t.datetime "created_at",                       :null => false
     t.datetime "updated_at",                       :null => false
+    t.integer  "fridge"
   end
 
   add_index "groceries", ["grocery_recipe_id", "ingredient_id"], :name => "index_groceries_on_grocery_recipe_id_and_ingredient_id", :unique => true

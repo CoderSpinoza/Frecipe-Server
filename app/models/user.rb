@@ -105,7 +105,10 @@ class User < ActiveRecord::Base
     groceries = []
     for grocery_recipe in self.grocery_recipes
       if grocery_recipe.recipe_id != 0
-        grocery_recipes << { :id => grocery_recipe.id, :name => grocery_recipe.recipe.name, :recipe_image => grocery_recipe.recipe.recipe_image.url, :missing_ingredients => grocery_recipe.ingredients, :groceries => grocery_recipe.groceries }
+        temp_groceries = grocery_recipe.groceries.select { |grocery| grocery.fridge == 1 }
+        ingredient_ids = temp_groceries.map { |grocery| grocery.ingredient_id }
+        temp_ingredients = grocery_recipe.ingredients.select { |ingredient| ingredient_ids.include? ingredient.id }
+        grocery_recipes << { :id => grocery_recipe.id, :name => grocery_recipe.recipe.name, :recipe_image => grocery_recipe.recipe.recipe_image.url, :missing_ingredients => temp_ingredients, :groceries => temp_groceries }
       else
         groceries = grocery_recipe.ingredients
       end

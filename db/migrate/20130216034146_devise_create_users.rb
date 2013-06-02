@@ -41,6 +41,9 @@ class DeviseCreateUsers < ActiveRecord::Migration
       # profile picture
       t.attachment :profile_picture
 
+      t.string :website, :default => ""
+      t.text :about, :default => ""
+
       t.integer :level, :default => 1
 
       t.timestamps

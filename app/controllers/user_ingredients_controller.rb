@@ -61,7 +61,7 @@ class UserIngredientsController < ApplicationController
         for grocery_recipe in grocery_recipes
           grocery_recipe.groceries.each { |grocery|
             if grocery.ingredient_id == ingredient.id
-              grocery.destroy
+              grocery.fridge = 0; grocery.save!
             end
           }
         end
@@ -128,9 +128,20 @@ class UserIngredientsController < ApplicationController
         end
       end
     end
-
+    user.grocery_recipes.each { |gr|
+      gr.groceries.each { |grocery|
+        if ingredient_array.include? grocery.ingredient_id.to_s
+          grocery.fridge = 1
+          grocery.save!
+        else
+          # grocery.fridge = 1
+          # grocery.save!
+        end
+        
+      }
+    }
     respond_to do |format|
-      format.json { render :json => user }
+      format.json { render :json => ingredient_array }
     end
   end
 end

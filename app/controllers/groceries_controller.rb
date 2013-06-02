@@ -48,13 +48,22 @@ class GroceriesController < ApplicationController
 
       if params[:groceries]
         names = params[:groceries].split(',')
-        for name in names
-          ingredient = Ingredient.find_or_create_by_name(name.downcase.titleize)
-          grocery = Grocery.new(:grocery_recipe => groceryRecipe, :ingredient => ingredient)
+        in_fridge = params[:in_fridge].split(',')
+        # for name in names
+        #   ingredient = Ingredient.find_or_create_by_name(name.downcase.titleize)
+        #   grocery = Grocery.new(:grocery_recipe => groceryRecipe, :ingredient => ingredient)
+        #   if grocery.save
+        #     @groceries << grocery
+        #   end
+        # end
+        names.zip(in_fridge) { |element|
+          ingredient = Ingredient.find_or_create_by_name(element[0].downcase.titleize)
+          grocery = Grocery.find_or_create_by_grocery_recipe_id_and_ingredient_id(groceryRecipe.id, ingredient.id)
+          grocery.fridge = element[1].to_i
           if grocery.save
             @groceries << grocery
           end
-        end
+        }
       end
     else
       @groceries = []
@@ -153,20 +162,9 @@ class GroceriesController < ApplicationController
         ingredients_array = params[:ids]
         @groceries_array = []
         @fridge_array = []
-        if ingredients_array
-          # for i in ingredients_array
-          #   if grocery = Grocery.find_by_user_id_and_ingredient_id(user.id, i)
-          #     grocery.destroy
-          #     user_ingredient = UserIngredient.new(:user_id => user.id, :ingredient_id => i)
-          #     if user_ingredient.save
-          #       @fridge_array << Ingredient.find_by_id(i)
-          #     end
-          #     @groceries_array << Ingredient.find_by_id(i)
-          #   end
-          # end
-          
+        if ingredients_array          
           for grocery_recipe in user.grocery_recipes
-            grocery_recipe.groceries.where(:ingredient_id => ingredients_array).destroy_all
+            grocery_recipe.groceries.where(:ingredient_id => ingredients_array).each { |grocery| grocery.fridge = 0; grocery.save! }
           end
           fridge_array = ingredients_array.map { |x| { :user_id => user.id, :ingredient_id => x}}.compact
           @fridge_array = UserIngredient.create(fridge_array)
