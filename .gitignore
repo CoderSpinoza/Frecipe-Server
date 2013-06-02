@@ -3,6 +3,3 @@ tmp
 log
 *.log
 
-log/development.log
-
-*.log
