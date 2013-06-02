@@ -186,9 +186,7 @@ class GroceriesController < ApplicationController
         if grocery
           grocery.active = 1; grocery.save!
         end
-        respond_to do |format|
-          format.json { render :json => { :message => "success", :grocery_list => user.grocery_list }}
-        end
+        format.json { render :json => { :message => "success", :grocery_list => user.grocery_list }}
       else
         format.json { render :json => { :message => "Invalid authentication token"}, :status => 404 }
       end
