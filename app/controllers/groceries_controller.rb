@@ -179,6 +179,19 @@ class GroceriesController < ApplicationController
   end
 
   def recover
-
+    user = UserSession.user_by_authentication_token(params[:authentication_token])
+    respond_to do |format|
+      if user
+        grocery = Grocery.find_by_id(params[:grocery_id])
+        if grocery
+          grocery.active = 1; grocery.save!
+        end
+        respond_to do |format|
+          format.json { render :json => { :message => "success", :grocery_list => user.grocery_list }}
+        end
+      else
+        format.json { render :json => { :message => "Invalid authentication token"}, :status => 404 }
+      end
+    end
   end
 end
