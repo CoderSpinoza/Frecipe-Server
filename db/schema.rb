@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130602034746) do
+ActiveRecord::Schema.define(:version => 20130604230729) do
 
   create_table "comments", :force => true do |t|
     t.integer  "user_id"
@@ -39,6 +39,14 @@ ActiveRecord::Schema.define(:version => 20130602034746) do
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
+  create_table "feedbacks", :force => true do |t|
+    t.string   "type"
+    t.text     "content"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "user_id"
+  end
+
   create_table "follows", :force => true do |t|
     t.integer  "user_id",     :null => false
     t.integer  "follower_id", :null => false
@@ -54,7 +62,7 @@ ActiveRecord::Schema.define(:version => 20130602034746) do
     t.integer  "active",            :default => 1
     t.datetime "created_at",                       :null => false
     t.datetime "updated_at",                       :null => false
-    t.integer  "fridge", :default => 1
+    t.integer  "fridge"
   end
 
   add_index "groceries", ["grocery_recipe_id", "ingredient_id"], :name => "index_groceries_on_grocery_recipe_id_and_ingredient_id", :unique => true
@@ -115,6 +123,7 @@ ActiveRecord::Schema.define(:version => 20130602034746) do
     t.datetime "recipe_image_updated_at"
     t.datetime "created_at",                :null => false
     t.datetime "updated_at",                :null => false
+    t.string   "external"
   end
 
   create_table "rs_evaluations", :force => true do |t|

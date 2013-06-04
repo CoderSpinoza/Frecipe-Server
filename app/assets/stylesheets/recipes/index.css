@@ -1,0 +1,12 @@
+#recipes_div {
+	top: 50px;
+}
+
+.recipe_div {
+	position: relative;
+	float: left;
+	width: 380px;
+	height: 280px;
+	background-color: #ef8877;
+}
+

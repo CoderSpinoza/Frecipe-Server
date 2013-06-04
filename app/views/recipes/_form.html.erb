@@ -10,10 +10,11 @@
       </ul>
     </div>
   <% end %>
-
-  <%= f.text_field :name %><br>
+  <a href="#" id="recipe_image_link"><%= image_tag @recipe.recipe_image %></a>
+  
+  <%= f.text_field :name, :placeholder => "Recipe Name" %><br>
   <%= f.text_field :category %><br>
-  <%= f.text_field 
+  <%= f.file_field :recipe_image %><br>
   <div class="actions">
     <%= f.submit %>
   </div>

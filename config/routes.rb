@@ -1,5 +1,7 @@
 Frecipe::Application.routes.draw do
 
+  resources :feedbacks
+
   resources :grocery_recipes do
     collection do
       post 'multiple_delete'

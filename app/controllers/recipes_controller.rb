@@ -1,4 +1,6 @@
 class RecipesController < ApplicationController
+  before_filter :authenticate_user!, :only => [:index, :show, :new, :edit]
+  layout "frecipe"
   # GET /recipes
   # GET /recipes.json
   def index

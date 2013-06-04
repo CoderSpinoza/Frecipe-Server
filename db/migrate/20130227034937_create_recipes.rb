@@ -4,8 +4,9 @@ class CreateRecipes < ActiveRecord::Migration
     	t.string :name
     	t.references :user
     	t.string :category
-    	t.text :steps
+    	t.text :steps, :default => ""
     	t.attachment :recipe_image
+      t.string :external
       t.timestamps
     end
   end

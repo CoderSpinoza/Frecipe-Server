@@ -7,6 +7,7 @@ gem 'rails', '3.2.11'
 
 gem 'pg'
 gem 'json'
+gem 'rest-client'
 gem 'thin'
 gem 'paperclip'
 gem 'aws-sdk'
@@ -50,4 +51,4 @@ gem 'jquery-rails'
 # gem 'capistrano'
 
 # To use debugger
-# gem 'debugger'
+gem 'debugger'

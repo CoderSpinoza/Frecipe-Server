@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= content_for?(:title) ? yield(:title) : "Frecipe" %></title>
+    <%= yield :custom_css %>
     <%= csrf_meta_tags %>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
@@ -44,35 +45,25 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Frecipe</a>
+          <a class="brand" href="/recipes">Frecipe</a>
           <div class="container nav-collapse">
             <ul class="nav">
-              <li><%= link_to "Link1", "/path1"  %></li>
-              <li><%= link_to "Link2", "/path2"  %></li>
-              <li><%= link_to "Link3", "/path3"  %></li>
+              <li><%= link_to "Recipes", "/recipes"  %></li>
+              <li><%= link_to "Fridge", "/path2"  %></li>
+              <li><%= link_to "Grocery List", "/path3"  %></li>
+              <li><%= link_to "Logout", destroy_user_session_path, :method => :delete %>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
 
-    <div class="container">
+    <div class="container" style="margin-top:50px;">
         <div class="row">
           <div class="span9">
             <%= bootstrap_flash %>
-            <%= yield :content %>
+            <%= yield %>
           </div>
-          <div class="span3">
-            <div class="well sidebar-nav">
-              <h3>Sidebar</h3>
-              <ul class="nav nav-list">
-                <li class="nav-header">Sidebar</li>
-                <li><%= link_to "Link1", "/path1"  %></li>
-                <li><%= link_to "Link2", "/path2"  %></li>
-                <li><%= link_to "Link3", "/path3"  %></li>
-              </ul>
-            </div><!--/.well -->
-          </div><!--/span-->
         </div><!--/row-->
 
       <footer>
@@ -85,6 +76,5 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <%= javascript_include_tag "application" %>
-
   </body>
 </html>
