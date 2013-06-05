@@ -23,19 +23,19 @@ class RegistrationsController < Devise::RegistrationsController
             end
           else
             respond_to do |format|
-              format.json { render :json => {:message => "session creation failed", :user => resource}, :status => 400}
+              format.json { render :json => {:message => "Session creation failed. Please retry.", :user => resource}, :status => 400}
             end
           end
         else
           expire_session_data_after_sign_in!
           respond_to do |format|
-            format.json { render :json => { :message => "inactive", :user => resource }, :status => 400 }
+            format.json { render :json => { :message => "Account is inactive. Please try to login again.", :user => resource }, :status => 400 }
           end
         end
       else
         clean_up_passwords resource
         respond_to do |format|
-          format.json { render :json => { :message => "error", :user => resource }, :status => 400 }
+          format.json { render :json => { :message => "There was an error processing your sign up request.", :user => resource }, :status => 400 }
         end
       end
     end
