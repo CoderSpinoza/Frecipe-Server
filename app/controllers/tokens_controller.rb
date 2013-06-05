@@ -6,11 +6,11 @@ class TokensController < ApplicationController
 		email = params[:email]
 		password = params[:password]
 		if email.nil? or password.nil?
-			render :status => 400, :json => { :message => "Email and password cannot be blank"}
+			render :status => 400, :json => { :message => "Email and password cannot be blank."}
 		else
 			@user = User.find_by_email(email.downcase)
 			if @user.nil?
-				render :status => 401, :json => { :message => "Invalid email" }
+				render :status => 401, :json => { :message => "You have entered a wrong email or password." }
 			else 
 				if @user.valid_password?(password)
 					@session = UserSession.new(:user => @user)
@@ -21,7 +21,7 @@ class TokensController < ApplicationController
 						render :status => 401, :json => { :user => @user, :message => "session creation failed"}
 					end
 				else
-					render :status => 401, :json => { :user => @user, :message => "Invalid password"}
+					render :status => 401, :json => { :user => @user, :message => "You have entered a wrong email or password."}
 				end
 			end
 		end
@@ -275,6 +275,25 @@ class TokensController < ApplicationController
   			format.json { render :json => { :message => "Invalid authentication token"}, :status => 404 }
   		end
   	end
+  end
+
+  def likes
+  end
+
+  def liked
+  	user = UserSession.user_by_authentication_token(params[:authentication_token])
+  	respond_to do |format|
+  		if user
+  		else
+  			format.json { render :json => { :message => "Invalid authentication token"}, :status => 404 }
+  		end
+  	end
+  end
+
+  def followers
+  end
+
+  def following
   end
 
 end

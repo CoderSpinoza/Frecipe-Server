@@ -63,6 +63,10 @@ Frecipe::Application.routes.draw do
       post 'picture'
       get 'facebookAccounts'
       get 'search'
+      get 'liked'
+      get 'likes'
+      get 'followers'
+      get 'following'
       get 'tokens/:id' => "tokens#check"
 
     end
