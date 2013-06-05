@@ -2,9 +2,9 @@ class RegistrationsController < Devise::RegistrationsController
 	def create
 		build_resource
 
-    if User.find_by_email(resource[:email])
+    if User.find_by_email(resource.email)
       respond_to do |format|
-        format.json { render :json => { :message => "An account with the email you entered already exists."} }
+        format.json { render :json => { :message => "An account with the email you entered already exists."}, :status => 400 }
       end
     else
       if resource.save
