@@ -276,52 +276,52 @@ class TokensController < ApplicationController
   	end
   end
 
-  # def liked
-  # 	user = UserSession.user_by_authentication_token(params[:authentication_token])
-  # 	respond_to do |format|
-  # 		if user
-  # 			@recipes = []
-  # 			user.liked.each { |recipe|
-  # 				user_ingredients_set = Set.new(user.ingredients)
-		#       recipe_ingredients_set = Set.new(recipe.ingredients)
-		#       set_difference = recipe_ingredients_set - user_ingredients_set
-  # 				@recipes << { :id => recipe.id, :recipe_name => recipe.name, :recipe_image => recipe.recipe_image.url, :missing_ingredients => set_difference, :user => recipe.user, :missing => set_difference.length, :likes => recipe.likers.length, :uid => recipe.user.uid, :provider => recipe.user.provider }
-  # 			}
-  # 			format.json { render :json => @recipes }
-  # 		else
-  # 			format.json { render :json => { :message => "Invalid authentication token"}, :status => 404 }
-  # 		end
-  # 	end
-  # end
+  def liked
+  	user = UserSession.user_by_authentication_token(params[:authentication_token])
+  	respond_to do |format|
+  		if user
+  			@recipes = []
+  			user.liked.each { |recipe|
+  				user_ingredients_set = Set.new(user.ingredients)
+		      recipe_ingredients_set = Set.new(recipe.ingredients)
+		      set_difference = recipe_ingredients_set - user_ingredients_set
+  				@recipes << { :id => recipe.id, :recipe_name => recipe.name, :recipe_image => recipe.recipe_image.url, :missing_ingredients => set_difference, :user => recipe.user, :missing => set_difference.length, :likes => recipe.likers.length, :uid => recipe.user.uid, :provider => recipe.user.provider }
+  			}
+  			format.json { render :json => { :message => "success", :recipes => @recipes} }
+  		else
+  			format.json { render :json => { :message => "Invalid authentication token"}, :status => 404 }
+  		end
+  	end
+  end
 
-  # def followers
-  # 	user = UserSession.user_by_authentication_token(params[:authentication_token])
-  # 	respond_to do |format|
-  # 		if user
-  # 			@followers = []
-  # 			user.followers.each { |follower|
-  # 				@follwers << { :id => follower.id, :first_name => followe.first_name, :last_name => followe.last_name, :profile_picture => followe.profile_picture.url, :provider => followe.provider, :uid => followe.uid }
-  # 			}
-  # 			format.json { render :json => @followers }
-  # 		else
-  # 			format.json { render :json => { :message => "Invalid authentication token"}, :status => 404 }
-  # 		end
-  # 	end
-  # end
+  def followers
+  	user = UserSession.user_by_authentication_token(params[:authentication_token])
+  	respond_to do |format|
+  		if user
+  			@followers = []
+  			user.followers.each { |follower|
+  				@follwers << { :id => follower.id, :first_name => followe.first_name, :last_name => followe.last_name, :profile_picture => followe.profile_picture.url, :provider => followe.provider, :uid => followe.uid }
+  			}
+  			format.json { render :json => { :message => "success", :users => @followers } }
+  		else
+  			format.json { render :json => { :message => "Invalid authentication token"}, :status => 404 }
+  		end
+  	end
+  end
 
-  # def following
-  # 	user = UserSession.user_by_authentication_token(params[:authentication_token])
-  # 	respond_to do |format|
-  # 		if user
-  # 			@followers = []
-  # 			user.following.each { |follower|
-  # 				@follwers << { :id => follower.id, :first_name => followe.first_name, :last_name => followe.last_name, :profile_picture => followe.profile_picture.url, :provider => followe.provider, :uid => followe.uid }
-  # 			}
-  # 			format.json { render :json => @followers }
-  # 		else
-  # 			format.json { render :json => { :message => "Invalid authentication token"}, :status => 404 }
-  # 		end
-  # 	end
-  # end
+  def following
+  	user = UserSession.user_by_authentication_token(params[:authentication_token])
+  	respond_to do |format|
+  		if user
+  			@followers = []
+  			user.following.each { |follower|
+  				@follwers << { :id => follower.id, :first_name => followe.first_name, :last_name => followe.last_name, :profile_picture => followe.profile_picture.url, :provider => followe.provider, :uid => followe.uid }
+  			}
+  			format.json { render :json => { :message => "success", :users => @followers } }
+  		else
+  			format.json { render :json => { :message => "Invalid authentication token"}, :status => 404 }
+  		end
+  	end
+  end
 
 end
