@@ -51,11 +51,11 @@ Frecipe::Application.routes.draw do
 
   # match 'tokens/picture' => "tokens#picture"
   match 'tokens/show' => "tokens#show"
-  match 'tokens/profile' => "tokens#profile"
   match 'tokens/detail' => "tokens#detail"
 
   resources :tokens do
     collection do
+      post 'profile'
       post 'reset'
       post 'password'
       post 'facebook_check'
