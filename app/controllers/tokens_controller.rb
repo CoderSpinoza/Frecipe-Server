@@ -289,7 +289,7 @@ class TokensController < ApplicationController
 		      set_difference = recipe_ingredients_set - user_ingredients_set
   				@recipes << { :id => recipe.id, :recipe_name => recipe.name, :recipe_image => recipe.recipe_image.url, :missing_ingredients => set_difference, :user => recipe.user, :missing => set_difference.length, :likes => recipe.likers.length, :uid => recipe.user.uid, :provider => recipe.user.provider }
   			}
-  			format.json { render :json => {@recipes }
+  			format.json { render :json => @recipes }
   		else
   			format.json { render :json => { :message => "Invalid authentication token"}, :status => 404 }
   		end
