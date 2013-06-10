@@ -1,7 +1,6 @@
 class TokensController < ApplicationController
 	skip_before_filter :verify_authenticity_token
 	respond_to :json
-	caches_action :profile
 
 	def create
 		email = params[:email]
