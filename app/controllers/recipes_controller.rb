@@ -1,6 +1,7 @@
 class RecipesController < ApplicationController
   before_filter :authenticate_user!, :only => [:index, :show, :new, :edit]
   layout "frecipe"
+  
   # GET /recipes
   # GET /recipes.json
   def index
@@ -147,22 +148,18 @@ class RecipesController < ApplicationController
   def possible
     session = UserSession.find_by_authentication_token(params[:authentication_token])
     user = session.user
-    recipes = Recipe.all
-
     json = []
-    for recipe in recipes
+
+    Recipe.find_each do |recipe|
       user_ingredients_set = Set.new(user.ingredients)
       recipe_ingredients_set = Set.new(recipe.ingredients)
       set_difference = recipe_ingredients_set - user_ingredients_set
       # if set_difference.length <= 2
       json << { :id => recipe.id, :recipe_name => recipe.name, :recipe_image => recipe.recipe_image.url, :missing_ingredients => set_difference, :user => recipe.user, :missing => set_difference.length, :likes => recipe.likers.length, :uid => recipe.user.uid, :provider => recipe.user.provider }
-      # end
-      
     end
     json = json.sort_by! { |k| k[:missing]}
-
     respond_to do |format|
-      format.json { render :json => json }
+      format.json { render :json => json[0, 40] }
     end
   end
 

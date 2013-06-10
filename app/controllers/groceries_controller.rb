@@ -71,7 +71,7 @@ class GroceriesController < ApplicationController
         names = params[:groceries].split(',')
         for name in names
           ingredient = Ingredient.find_or_create_by_name(name.downcase.titleize)
-          grocery_recipe = GroceryRecipe.find_by_user_id_and_recipe_id(user.id, 0)
+          grocery_recipe = GroceryRecipe.find_or create_by_user_id_and_recipe_id(user.id, 0)
           if grocery_recipe
             grocery = Grocery.new(:grocery_recipe_id => grocery_recipe.id, :ingredient => ingredient)
             if grocery.save

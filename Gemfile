@@ -19,10 +19,13 @@ gem 'delayed_job_active_record'
 gem 'daemons'
 gem 'twitter-bootstrap-rails'
 gem 'actionmailer'
+gem 'apn_sender'
 
 gem 'memcachier'
 gem 'dalli'
 gem 'swiftype'
+gem 'graphite'
+gem 'newrelic_rpm'
 
 # Gems used only for assets and not required
 # in production environments by default.

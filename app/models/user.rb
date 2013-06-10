@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
   has_many :liked_relationships, :class_name => "Like", :foreign_key => "user_id"
   has_many :liked, :through => :liked_relationships, :source => :recipe, :dependent => :destroy
   
+  
   has_many :recipes, :dependent => :destroy
   has_many :comments, :dependent => :destroy
 
