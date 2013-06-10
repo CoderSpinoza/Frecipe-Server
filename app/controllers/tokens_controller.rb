@@ -300,7 +300,7 @@ class TokensController < ApplicationController
   		if user
   			@followers = []
   			user.followers.each { |follower|
-  				@follwers << { :id => follower.id, :first_name => followe.first_name, :last_name => followe.last_name, :profile_picture => followe.profile_picture.url, :provider => followe.provider, :uid => followe.uid }
+  				@follwers << { :id => follower.id, :first_name => follower.first_name, :last_name => follower.last_name, :profile_picture => follower.profile_picture.url, :provider => follower.provider, :uid => follower.uid }
   			}
   			format.json { render :json => { :message => "success", :users => @followers } }
   		else
@@ -315,7 +315,7 @@ class TokensController < ApplicationController
   		if user
   			@followers = []
   			user.following.each { |follower|
-  				@follwers << { :id => follower.id, :first_name => followe.first_name, :last_name => followe.last_name, :profile_picture => followe.profile_picture.url, :provider => followe.provider, :uid => followe.uid }
+  				@follwers << { :id => follower.id, :first_name => follower.first_name, :last_name => follower.last_name, :profile_picture => follower.profile_picture.url, :provider => follower.provider, :uid => follower.uid }
   			}
   			format.json { render :json => { :message => "success", :users => @followers } }
   		else
