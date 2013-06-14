@@ -280,8 +280,9 @@ class TokensController < ApplicationController
   	user = UserSession.user_by_authentication_token(params[:authentication_token])
   	respond_to do |format|
   		if user
+  			target = User.find_by_id(params[:id])
   			@recipes = []
-  			user.liked.each { |recipe|
+  			target.liked.each { |recipe|
   				user_ingredients_set = Set.new(user.ingredients)
 		      recipe_ingredients_set = Set.new(recipe.ingredients)
 		      set_difference = recipe_ingredients_set - user_ingredients_set
@@ -298,8 +299,9 @@ class TokensController < ApplicationController
   	user = UserSession.user_by_authentication_token(params[:authentication_token])
   	respond_to do |format|
   		if user
+  			target = User.find_by_id(params[:id])
   			@followers = []
-  			user.followers.each { |follower|
+  			target.followers.each { |follower|
   				@followers << { :id => follower.id, :first_name => follower.first_name, :last_name => follower.last_name, :profile_picture => follower.profile_picture.url, :provider => follower.provider, :uid => follower.uid }
   			}
   			format.json { render :json => { :message => "success", :users => @followers } }
@@ -314,7 +316,8 @@ class TokensController < ApplicationController
   	respond_to do |format|
   		if user
   			@followers = []
-  			user.following.each { |follower|
+  			target = User.find_by_id(params[:id])
+  			target.following.each { |follower|
   				@followers << { :id => follower.id, :first_name => follower.first_name, :last_name => follower.last_name, :profile_picture => follower.profile_picture.url, :provider => follower.provider, :uid => follower.uid }
   			}
   			format.json { render :json => { :message => "success", :users => @followers } }
