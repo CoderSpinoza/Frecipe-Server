@@ -277,7 +277,6 @@ class TokensController < ApplicationController
   end
 
   def liked
-  	user = UserSession.user_by_authentication_token(params[:authentication_token])
   	respond_to do |format|
 			target = User.find_by_id(params[:id])
 			@recipes = []
@@ -293,7 +292,6 @@ class TokensController < ApplicationController
   end
 
   def followers
-  	user = UserSession.user_by_authentication_token(params[:authentication_token])
   	respond_to do |format|
 			target = User.find_by_id(params[:id])
 			@followers = []
@@ -305,7 +303,6 @@ class TokensController < ApplicationController
   end
 
   def following
-  	user = UserSession.user_by_authentication_token(params[:authentication_token])
   	respond_to do |format|
 			@followers = []
 			target = User.find_by_id(params[:id])
