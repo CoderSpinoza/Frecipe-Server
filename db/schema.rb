@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130604230729) do
+ActiveRecord::Schema.define(:version => 20130604034536) do
 
   create_table "comments", :force => true do |t|
     t.integer  "user_id"
@@ -40,11 +40,11 @@ ActiveRecord::Schema.define(:version => 20130604230729) do
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
   create_table "feedbacks", :force => true do |t|
+    t.integer  "user_id"
     t.string   "type"
     t.text     "content"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.integer  "user_id"
   end
 
   create_table "follows", :force => true do |t|
@@ -60,9 +60,9 @@ ActiveRecord::Schema.define(:version => 20130604230729) do
     t.integer  "grocery_recipe_id"
     t.integer  "ingredient_id"
     t.integer  "active",            :default => 1
+    t.integer  "fridge",            :default => 1
     t.datetime "created_at",                       :null => false
     t.datetime "updated_at",                       :null => false
-    t.integer  "fridge"
   end
 
   add_index "groceries", ["grocery_recipe_id", "ingredient_id"], :name => "index_groceries_on_grocery_recipe_id_and_ingredient_id", :unique => true
@@ -116,14 +116,17 @@ ActiveRecord::Schema.define(:version => 20130604230729) do
     t.string   "name"
     t.integer  "user_id"
     t.string   "category"
-    t.text     "steps"
+    t.text     "steps",                                     :default => ""
     t.string   "recipe_image_file_name"
     t.string   "recipe_image_content_type"
     t.integer  "recipe_image_file_size"
     t.datetime "recipe_image_updated_at"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
     t.string   "external"
+    t.integer  "likes_count",                               :default => 0
+    t.string   "ingredients_string",        :limit => 1023, :default => ""
+    t.string   "username"
+    t.datetime "created_at",                                                :null => false
+    t.datetime "updated_at",                                                :null => false
   end
 
   create_table "rs_evaluations", :force => true do |t|
@@ -213,11 +216,11 @@ ActiveRecord::Schema.define(:version => 20130604230729) do
     t.string   "profile_picture_content_type"
     t.integer  "profile_picture_file_size"
     t.datetime "profile_picture_updated_at"
+    t.string   "website",                      :default => ""
+    t.text     "about",                        :default => ""
     t.integer  "level",                        :default => 1
     t.datetime "created_at",                                   :null => false
     t.datetime "updated_at",                                   :null => false
-    t.text     "about",                        :default => ""
-    t.string   "website",                      :default => ""
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true

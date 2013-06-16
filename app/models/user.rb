@@ -37,6 +37,9 @@ class User < ActiveRecord::Base
   has_attached_file :profile_picture, :path => "public/image/users/:id/:filename", :url => "image/users/:id/:filename", :default_url => "https://s3.amazonaws.com/Frecipe/public/image/users/default_profile_picture.png", :s3_permissions => "public_read_write"
   # attr_accessible :title, :body
 
+  # regarding reputations
+  has_reputation :average_rating, :source => { :reputation => :rating, :of => :recipes }
+
   def self.from_omniauth(auth)
 	  where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
 	    user.provider = auth.provider

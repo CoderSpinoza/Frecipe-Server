@@ -1,17 +1,35 @@
 class RecipesController < ApplicationController
-  before_filter :authenticate_user!, :only => [:index, :show, :new, :edit]
+  before_filter :authenticate_user!, :only => [:show, :new, :edit]
   layout "frecipe"
-  
   # GET /recipes
   # GET /recipes.json
   def index
-    @recipes = Recipe.all
+    # @recipes = Recipe.all
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @recipes }
+    # cached_recipes = Rails.cache.read('all_recipes')
+
+    # if cached_recipes
+    #   @recipes = cached_recipes
+    #   respond_to do |format|
+    #     format.html #index.html.erb
+    #     format.json { render json: @recipes}
+    #   end
+    # else
+      @recipes = []
+      # @recipes = Recipe.includes(:user, :ingredients, :likers)
+      # recipes.each do |recipe|
+      #   @recipes << { :id => recipe.id, :recipe_name => recipe.name, :recipe_image => recipe.recipe_image.url, :user => recipe.user, :likes => recipe.likers.count, :ingredients => recipe.ingredients }
+      # end
+      user = UserSession.user_by_authentication_token(params[:authentication_token])
+      @recipes = Recipe.fetch_all
+      # Rails.cache.write('all_recipes', @recipes)
+      respond_to do |format|
+        format.html # index.html.erb
+        format.json { render :json => { :recipes => @recipes, :ingredients => user.ingredients.select('name').map { |ingredient| ingredient.name } } }
+      end
     end
-  end
+    
+  # end
 
   # GET /recipes/1
   # GET /recipes/1.json
@@ -51,6 +69,7 @@ class RecipesController < ApplicationController
     directions = params[:steps]
     @recipe.recipe_image = params[:recipe_image]
     @recipe.user = @user
+    @recipe.ingredients_string = params[:ignredients]
     for ingredient in ingredients
       temp = Ingredient.find_or_create_by_name(ingredient.downcase.titleize)
       @recipe.ingredients << temp
@@ -82,6 +101,7 @@ class RecipesController < ApplicationController
         steps = params[:steps]
         @recipe.name = params[:recipe_name].downcase.titleize
         @recipe.recipe_image = params[:recipe_image]
+        @recipe.ingredients_string = params[:ingredients]
         @recipe.ingredients = []
         for ingredient in ingredients
           temp = Ingredient.find_or_create_by_name(ingredient.downcase.titleize)
@@ -146,20 +166,23 @@ class RecipesController < ApplicationController
   end
 
   def possible
+
     session = UserSession.find_by_authentication_token(params[:authentication_token])
     user = session.user
     json = []
 
+    user_ingredients_set = Set.new(user.ingredients)
+
     Recipe.find_each do |recipe|
-      user_ingredients_set = Set.new(user.ingredients)
       recipe_ingredients_set = Set.new(recipe.ingredients)
       set_difference = recipe_ingredients_set - user_ingredients_set
       # if set_difference.length <= 2
-      json << { :id => recipe.id, :recipe_name => recipe.name, :recipe_image => recipe.recipe_image.url, :missing_ingredients => set_difference, :user => recipe.user, :missing => set_difference.length, :likes => recipe.likers.length, :uid => recipe.user.uid, :provider => recipe.user.provider }
+      json << { :id => recipe.id, :recipe_name => recipe.name, :recipe_image => recipe.recipe_image.url, :missing_ingredients => set_difference, :user => recipe.user, :missing => set_difference.length, :likes => recipe.likers.length, :uid => recipe.user.uid, :provider => recipe.user.provider, :ingredients => recipe.ingredients }
     end
+
     json = json.sort_by! { |k| k[:missing]}
     respond_to do |format|
-      format.json { render :json => json[0, 40] }
+      format.json { render :json => json}
     end
   end
 

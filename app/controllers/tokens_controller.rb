@@ -94,54 +94,29 @@ class TokensController < ApplicationController
 			profile = User.find_by_id(params[:id])
 
 			if profile and user != profile
-				recipes = profile.recipes
-				numOfLikes = 0
+				numOfLikes = profile.recipes.to_a.sum(&:likes_count)
 				following = "Follow"
-				mostPopularRecipe = nil
-				mostPopularRecipeLikes = 0
-				@recipes = []
-				for recipe in recipes
-					user_ingredients_set = Set.new(user.ingredients)
-		      recipe_ingredients_set = Set.new(recipe.ingredients)
-		      set_difference = recipe_ingredients_set - user_ingredients_set
-					@recipes << { :id => recipe.id, :recipe_name => recipe.name, :recipe_image => recipe.recipe_image.url, :user => recipe.user, :missing_ingredients => set_difference, :likes => recipe.likers.length }
-					numOfLikes += recipe.likers.count
-					if mostPopularRecipe == nil or mostPopularRecipe.likers.count < recipe.likers.count
-						mostPopularRecipe = recipe
-						mostPopularRecipeLikes = mostPopularRecipe.likers.count
-					end
-				end
+				mostPopularRecipe = profile.recipes.order('likes_count DESC').limit(1)
 
+				@recipes = Recipe.fetch_with_user(profile)
 				if profile.followers.include? user
 					following = "Following"
 				end
 				respond_to do |format|
-					format.json { render :json => { :user => profile, :profile_image => profile.profile_picture.url, :recipes => @recipes, :followers => profile.followers, :likes => numOfLikes, :most => mostPopularRecipe, :mostLikes => mostPopularRecipeLikes, :follow => following, :rating => profile.average_rating, :liked => profile.liked, :following => profile.following }}
+					# format.json { render :json => { :user => profile, :ingredients => profile.ingredients.map { |ingredient| ingredient.name }, :profile_image => profile.profile_picture.url, :recipes => @recipes}}
+					format.json { render :json => { :user => profile, :ingredients => profile.ingredients.map { |ingredient| ingredient.name }, :profile_image => profile.profile_picture.url, :recipes => @recipes, :followers => profile.followers, :likes => numOfLikes, :most => mostPopularRecipe, :follow => following, :rating => profile.reputation_for(:average_rating), :liked => profile.liked, :following => profile.following }}
 				end
 			else
-				recipes = user.recipes
-				numOfLikes = 0
+				numOfLikes = user.recipes.to_a.sum(&:likes_count)
 				following = "You"
-				mostPopularRecipe = nil
-				mostPopularRecipeLikes = 0
-				@recipes = []
-				for recipe in recipes
-					user_ingredients_set = Set.new(user.ingredients)
-		      recipe_ingredients_set = Set.new(recipe.ingredients)
-		      set_difference = recipe_ingredients_set - user_ingredients_set
-					@recipes << { :id => recipe.id, :recipe_name => recipe.name, :recipe_image => recipe.recipe_image.url, :user => recipe.user, :missing_ingredients => set_difference, :likes => recipe.likers.length }
-					numOfLikes += recipe.likers.count
-					if mostPopularRecipe == nil or mostPopularRecipe.likers.count < recipe.likers.count
-						mostPopularRecipe = recipe
-						mostPopularRecipeLikes = mostPopularRecipe.likers.count
-					end
-				end
+				mostPopularRecipe = user.recipes.order('likes_count DESC').limit(1)
+
+				@recipes = Recipe.fetch_with_user(user)
 				respond_to do |format|
-					format.json { render :json => { :user => user, :profile_image => user.profile_picture.url, :recipes => @recipes, :followers => user.followers, :likes => numOfLikes, :most => mostPopularRecipe, :mostLikes => mostPopularRecipeLikes, :follow => following, :rating => user.average_rating, :liked => user.liked, :following => user.following }}
+					format.json { render :json => { :user => user, :ingredients => user.ingredients.map { |ingredient| ingredient.name }, :profile_image => user.profile_picture.url, :recipes => @recipes, :followers => user.followers, :likes => numOfLikes, :most => mostPopularRecipe, :follow => following, :rating => user.reputation_for(:average_rating), :liked => user.liked, :following => user.following }}
 				end
 			end
 		else
-
 			respond_to do |format|
 				format.json { render :json => { :message => "Invalid authentication token"}}
 			end

@@ -62,6 +62,8 @@ class LikesController < ApplicationController
 
         if @like.save
           if user != recipe.user
+            recipe.likes_count += 1
+            recipe.save
             Notification.create(:source => user, :target => recipe.user, :recipe => recipe, :category => "like", :seen => 0)
           end
           format.json { render :json => { :likes => recipe.likers.count, :message => "like" }}
@@ -72,6 +74,8 @@ class LikesController < ApplicationController
       end
     else
       @exists[0].destroy
+      recipe.likes_count -= 1
+      recipe.save
       respond_to do |format|
         format.json { render :json => { :likes => recipe.likers.count, :message => "unlike"}}
       end

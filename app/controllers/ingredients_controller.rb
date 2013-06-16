@@ -3,7 +3,7 @@ class IngredientsController < ApplicationController
   # GET /ingredients
   # GET /ingredients.json
   def index
-    @ingredients = Ingredient.all
+    @ingredients = Ingredient.all.map { |ingredient| ingredient.name }
 
     respond_to do |format|
       format.html # index.html.erb

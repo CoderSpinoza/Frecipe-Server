@@ -7,6 +7,9 @@ class CreateRecipes < ActiveRecord::Migration
     	t.text :steps, :default => ""
     	t.attachment :recipe_image
       t.string :external
+      t.integer :likes_count, :default => 0
+      t.string :ingredients_string, :default => "", :limit => 1023
+      t.string :username
       t.timestamps
     end
   end

@@ -40,7 +40,9 @@ Frecipe::Application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
   # Use a different cache store in production
-  config.cache_store = :dalli_store
+  config.cache_store = :dalli_store, ENV["MEMCACHIER_SERVERS"],
+                    {:username => ENV["MEMCACHIER_USERNAME"],
+                     :password => ENV["MEMCACHIER_PASSWORD"]}
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
@@ -64,6 +66,10 @@ Frecipe::Application.configure do
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
+
+  config.after_initialize do 
+    Delayed::Job.scaler = :heroku_cedar
+  end
 
   config.action_mailer.default_url_options = { :host => 'intense-cove-3838.herokuapp.com' }
   Paperclip::Attachment.default_options.merge!({
