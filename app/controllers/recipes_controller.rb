@@ -69,7 +69,7 @@ class RecipesController < ApplicationController
     directions = params[:steps]
     @recipe.recipe_image = params[:recipe_image]
     @recipe.user = @user
-    @recipe.ingredients_string = params[:ignredients]
+    @recipe.ingredients_string = params[:ingredients]
     for ingredient in ingredients
       temp = Ingredient.find_or_create_by_name(ingredient.downcase.titleize)
       @recipe.ingredients << temp
