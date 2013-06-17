@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
   # attr_accessible :title, :body
 
   # regarding reputations
-  has_reputation :average_rating, :source => { :reputation => :rating, :of => :recipes }
+  has_reputation :average_rating, :source => { :reputation => :rating, :of => :recipes }, aggregated_by: :average
 
   def self.from_omniauth(auth)
 	  where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
@@ -71,23 +71,6 @@ class User < ActiveRecord::Base
       return evaluation[0].value
     else
       return 0
-    end
-  end
-
-  def average_rating
-    recipes = self.recipes
-
-    sum = 0
-    count = 0 
-    for recipe in recipes
-      sum += recipe.reputation_for(:rating)
-      count += 1
-    end
-
-    if count == 0
-      return 0
-    else
-      return Float(sum) / count
     end
   end
 

@@ -13,7 +13,7 @@ class Recipe < ActiveRecord::Base
   has_many :comments, :dependent => :destroy
   attr_accessible :name, :user, :steps, :likes_count
 
-  has_reputation :rating, source: :user, aggregated_by: :average
+  has_reputation :rating, source: :user, aggregated_by: :average, :source_of => [{ :reputation => :average_rating, :of => :user}]
 
   has_many :notifications, :dependent => :destroy
 
