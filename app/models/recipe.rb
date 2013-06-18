@@ -84,4 +84,8 @@ class Recipe < ActiveRecord::Base
   def self.fetch_with_user(user)
     return Recipe.select('recipes.name, recipes.id AS recipe_id, users.id AS user_id, users.first_name as first_name, users.last_name as last_name, recipes.likes_count, recipes.ingredients_string, recipes.recipe_image_file_name').joins(:user).where(:user_id => user.id)
   end
+
+  def fetch_comments
+    return self.comments.select('users.id AS user_id, users.first_name AS first_name, users.last_name AS last_name, users.provider AS provider, users.uid AS uid, users.profile_picture_file_name AS profile_picture, comments.id AS comment_id, comments.text AS text, comments.created_at').joins(:user)
+  end
 end

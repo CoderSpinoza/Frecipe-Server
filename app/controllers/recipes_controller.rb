@@ -196,12 +196,7 @@ class RecipesController < ApplicationController
       isOwner = 1
     end
 
-    @comments = []
-    comments = recipe.comments
-    for comment in comments
-      comment_user = comment.user
-      @comments << { :user => comment_user, :profile_picture => comment_user.profile_picture.url, :comment => comment }
-    end
+    @comments = recipe.fetch_comments
 
     user_rating = user.rate_value(recipe)
 

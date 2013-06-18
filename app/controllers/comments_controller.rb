@@ -59,12 +59,8 @@ class CommentsController < ApplicationController
           
           if @comment.save
             recipe = Recipe.find_by_id([params[:recipe_id]])
-            @comments = []
-            comments = recipe.comments
-            for comment in comments
-              comment_user = comment.user
-              @comments << { :user => comment_user, :profile_picture => comment_user.profile_picture.url, :comment => comment }
-            end
+
+            @comments = recipe.fetch_comments
             format.json { render :json => { :comments => @comments, :message => "success"} }
           else
             format.json { render :status => 500, :json => { :message => "There was an error uploading your comment." }}
@@ -94,7 +90,7 @@ class CommentsController < ApplicationController
   # DELETE /comments/1
   # DELETE /comments/1.json
   def destroy
-    @user = User.find_by_authentication_token(params[:authentication_token])
+    @user = UserSession.user_by_authentication_token(params[:authentication_token])
     @recipe = Recipe.find_by_id(params[:recipe_id])
 
     @comment = Comment.find_by_id(params[:id])
@@ -102,12 +98,7 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.user == @user and @recipe
         @comment.destroy
-        @comments = []
-        comments = @recipe.comments
-            for comment in comments
-              comment_user = comment.user
-              @comments << { :user => comment_user, :profile_picture => comment_user.profile_picture.url, :comment => comment }
-            end
+        @comments = @recipe.fetch_comments
         format.json { render :json => { :comments => @comments, :message => "success" }}
       else
         format.json { render :json => { :message => "failure"}}
