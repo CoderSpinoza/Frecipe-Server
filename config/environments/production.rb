@@ -71,7 +71,7 @@ Frecipe::Application.configure do
     Delayed::Job.scaler = :heroku_cedar
   end
 
-  config.action_mailer.default_url_options = { :host => 'intense-cove-3838.herokuapp.com' }
+  config.action_mailer.default_url_options = { :host => 'frecipe.herokuapp.com' }
   Paperclip::Attachment.default_options.merge!({
     :storage => :s3,
     :bucket => 'FrecipeProduction',
