@@ -19,7 +19,7 @@ class Recipe < ActiveRecord::Base
 
   has_many :grocery_recipes, :dependent => :destroy
 
-  has_attached_file :recipe_image, :path => "public/image/recipes/:id/:filename", :url => "/image/recipes/:id/:filename", :default_url => "https://s3.amazonaws.com/Frecipe/public/image/recipes/default_recipe_image.png", :s3_permissions => "public_read_write"
+  has_attached_file :recipe_image, :path => "public/image/recipes/:id/:filename", :url => "/image/recipes/:id/:filename", :default_url => "https://s3.amazonaws.com/FrecipeProduction/public/image/recipes/default_recipe_image.png", :s3_permissions => "public_read_write"
 
   def self.find_by_user_ingredients(user)
   	ingredients = user.ingredients
