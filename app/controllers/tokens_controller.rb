@@ -209,7 +209,7 @@ class TokensController < ApplicationController
   			end
   			user.save!
 
-  			format.json { render :json => { :message => "success", :user => user}}
+  			format.json { render :json => { :message => "success", :user => user, :profile_picture => user.profile_picture.url}}
   		else
   			format.json { render :json => {:message => "Invalid authentication token"}, :status => 404}
   		end
