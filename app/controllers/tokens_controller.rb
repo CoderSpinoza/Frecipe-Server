@@ -42,26 +42,19 @@ class TokensController < ApplicationController
 		@user = User.find_by_authentication_token(params[:authentication_token])
 
 		if profile_picture
-
 			@user.profile_picture = profile_picture
 			if @user.save
 				respond_to do |format|
-					format.json { render :json => [@user.profile_picture.url] }
+					format.json { render :json => { :profile_picture => @user.profile_picture.url, :message => "success"} }
 				end
 			else
 				respond_to do |format|
-					format.json { render :json => ["failed to update profile picture"]}
+					format.json { render :json => ["failed to update profile picture"], :status => 401 }
 				end
 			end
 		else
-			if @user.profile_picture
-				respond_to do |format|
-					format.json { render :json => {:profile_picture => @user.profile_picture.url }}
-				end
-			else
-				respond_to do |format|
-					format.json { render :json => ["No picture sent"]}
-				end
+			respond_to do |format|
+				format.json { render :json => ["No picture sent"], :status => 404 }
 			end
 		end
 	end
@@ -210,6 +203,10 @@ class TokensController < ApplicationController
   			user.last_name = params[:last_name].strip.titleize
   			user.about = params[:about].strip
   			user.website = params[:website].strip
+
+  			if params[:image]
+  				user.profile_picture = params[:image]
+  			end
   			user.save!
 
   			format.json { render :json => { :message => "success", :user => user}}
