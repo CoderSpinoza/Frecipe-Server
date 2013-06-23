@@ -37,8 +37,8 @@ ul.menu a {
 
 section#slider div#cover {
 	width: 1024px;
-	height: 700px;
-	background-image: url('https://s3.amazonaws.com/FrecipeProduction/public/image/web/carbonara.png');
+	height: 500px;
+	background-image: url('https://s3.amazonaws.com/FrecipeProduction/public/image/web/carbonara_small.png');
 	background-size: cover;
 }
 
@@ -134,4 +134,31 @@ p.copyright {
 	padding-top: 10px;
 	position: absolute;
 }
+
+/* css for signin page */
+a#logo {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -100px;
+	margin-left: -300px;
+}
+
+form#new_user {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-top: -200px;
+	input[type="email"], input[type="password"] {
+		margin-top: -20px;
+	}
+	input[type="checkbox"] {
+		margin-top: 0px;
+	}
+	div#remember_div {
+		margin-bottom: 10px;
+	}
+}
+
+
 
