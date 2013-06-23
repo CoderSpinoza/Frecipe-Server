@@ -1,3 +1,137 @@
 // Place all the styles related to the tokens controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#main {
+	margin: 0 auto;
+	width: 1024px;
+}
+
+#banner {
+	margin: 20px 0 0;
+	position: relative;
+}
+
+h1.logo {
+
+}
+
+ul.menu {
+	list-style: none outside none;
+	position: absolute;
+	right: 30px;
+	bottom: 10px;
+}
+
+ul.menu li {
+	float: left;
+
+}
+
+ul.menu a {
+	font-size: 20px;
+	color: #ff9988;
+	padding: 10px;
+	text-decoration: none;
+}
+
+section#slider div#cover {
+	width: 1024px;
+	height: 700px;
+	background-image: url('/assets/carbonara.jpg');
+	background-size: cover;
+}
+
+#screenshots {
+	margin-top: 50px;
+}
+section.feature {
+	width: 574px;
+	height: 400px;
+	background-size: contain;
+	background-repeat: no-repeat;
+	border-bottom: 1px solid #dddddd;
+	margin-bottom: 10px;
+	color: #ff6644;
+}
+
+section.left {
+	padding: 50px 50px 0 400px;
+}
+
+section.right {
+	padding: 50px 400px 0 50px;
+	background-position: right;
+}
+
+section.last {
+	border-bottom: none;
+}
+
+section.feature p {
+	font-size: 20px;
+	line-height: 25px;
+}
+
+section#recipes {
+	background-image: url('/assets/recipes.png');
+}
+
+section#profile {
+	background-image: url('/assets/profile.png');
+}
+
+section#grocerylist {
+	background-image: url('/assets/grocerylist.png');
+}
+
+section#fridge {
+	background-image: url('/assets/fridge.png');
+}
+
+section#connect {
+	background-image: url('/assets/1136ss5.png');
+}
+
+footer {
+	margin-top: 80px;
+	padding-top: 20px;
+	border-top: 1px solid #dddddd;
+}
+
+footer ul.footer_menu {
+	padding-left: 100px;
+	list-style: none outside none;
+	position: absolute;
+	li {
+		padding: 8px;
+		float: left;
+		a {
+			text-decoration: none;
+			color: #aaaaaa;
+		} 
+		a:hover {
+			text-decoration: none;
+			color: #ff6644;
+		}
+
+	}
+}
+
+footer ul.download {
+	list-style: none outside none;
+	position: absolute;
+	right: 200px;
+	margin-top: -12px;
+	li {
+		padding: 5px;
+		float: left;
+	}
+}
+
+
+p.copyright {
+	padding-top: 10px;
+	position: absolute;
+}
+
