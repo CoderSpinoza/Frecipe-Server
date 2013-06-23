@@ -126,6 +126,11 @@ footer ul.download {
 	li {
 		padding: 5px;
 		float: left;
+		a {
+			img {
+				height: 35px;
+			}
+		}
 	}
 }
 
