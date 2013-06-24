@@ -9,7 +9,7 @@
 
 <% @ingredients.each do |ingredient| %>
   <tr>
-    <td><%= image_tag ingredient.image.url %>
+    <td><%= image_tag ingredient.image.url, :width => 100, :height => 100 %>
     <td><%= link_to ingredient.name, ingredient %></td>
     <td><%= link_to 'Edit', edit_ingredient_path(ingredient) %></td>
     <td><%= link_to 'Destroy', ingredient, method: :delete, data: { confirm: 'Are you sure?' } %></td>
