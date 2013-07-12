@@ -1,5 +1,9 @@
 Frecipe::Application.routes.draw do
 
+  get "metrics" => "metrics#index"
+  get "metrics/show"
+
+  # metrics page
   resources :feedbacks
 
   resources :grocery_recipes do
