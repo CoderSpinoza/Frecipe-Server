@@ -2,7 +2,7 @@ class UserIngredientsController < ApplicationController
   # GET /user_ingredients
   # GET /user_ingredients.json
   def index
-    @user_ingredients = UserIngredient.all
+    @user_ingredients = UserIngredient.all.map { |ingredient| ingredient.name }
 
     respond_to do |format|
       format.html # index.html.erb
@@ -21,7 +21,6 @@ class UserIngredientsController < ApplicationController
     # end
     user = UserSession.user_by_authentication_token(params[:id])
     @ingredients = user.ingredients.map { |ingredient| { :id => ingredient.id, :name => ingredient.name, :image => ingredient.image.url }}.compact
-    
     respond_to do |format|
       format.json { render :json => @ingredients }
     end
