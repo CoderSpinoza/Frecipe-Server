@@ -103,7 +103,6 @@ GEM
     mono_logger (1.1.0)
     multi_json (1.6.1)
     multipart-post (1.1.5)
-    newrelic_rpm (3.6.3.111)
     nokogiri (1.5.6)
     oauth2 (0.8.1)
       faraday (~> 0.8)
@@ -247,7 +246,6 @@ DEPENDENCIES
   jquery-rails
   json
   memcachier
-  newrelic_rpm
   omniauth
   omniauth-facebook (= 1.4.0)
   paperclip
