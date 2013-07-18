@@ -10,7 +10,7 @@ Frecipe::Application.routes.draw do
       get 'facebook'
     end
   end
-  
+
   resources :grocery_recipes do
     collection do
       post 'multiple_delete'
