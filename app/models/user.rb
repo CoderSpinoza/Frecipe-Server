@@ -103,4 +103,8 @@ class User < ActiveRecord::Base
     return { :groceries => groceries, :recipes => grocery_recipes }
   end
 
+  def points
+    return self.recipes.count * 50 + (self.likers.count + self.followers.count) * 10
+  end
+
 end

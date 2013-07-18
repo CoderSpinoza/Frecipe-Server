@@ -5,7 +5,12 @@ Frecipe::Application.routes.draw do
 
   # metrics page
   resources :feedbacks
-
+  resources :rankings do
+    collection do
+      get 'facebook'
+    end
+  end
+  
   resources :grocery_recipes do
     collection do
       post 'multiple_delete'
