@@ -103,4 +103,11 @@ class User < ActiveRecord::Base
     return { :groceries => groceries, :recipes => grocery_recipes }
   end
 
+  def self.update_points
+    User.all.each { |user|
+      user.points = user.recipes.count * 80 + user.recipes.to_a.sum(&:likes_count) * 10 + user.followers.count * 10
+      user.save
+    }
+  end
+
 end
