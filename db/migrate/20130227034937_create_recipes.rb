@@ -10,6 +10,7 @@ class CreateRecipes < ActiveRecord::Migration
       t.integer :likes_count, :default => 0
       t.string :ingredients_string, :default => "", :limit => 1023
       t.string :username
+      t.text :about
       t.timestamps
     end
   end
