@@ -151,15 +151,7 @@ class TokensController < ApplicationController
 	end
 
 	def facebookAccounts
-		users = User.all
-
-		@uids = []
-
-		for user in users
-			if user.provider == "facebook" and user.uid
-				@uids << user.uid
-			end
-		end
+		@uids = User.where(:provider => "facebook").map { |user| user.uid }
 
 		respond_to do |format|
 			format.json { render :json => @uids }
