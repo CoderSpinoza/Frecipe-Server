@@ -81,6 +81,7 @@ class RecipesController < ApplicationController
 
     respond_to do |format|
       if @recipe.save
+        @user.give_points(80)
         @user.upload_notification(@recipe)
         format.json { render :json => @recipe.ingredients }
       else
@@ -136,6 +137,7 @@ class RecipesController < ApplicationController
       if user
         if @recipe
           @recipe.destroy
+          user.give_points(-80)
         end
         # format.html { redirect_to recipes_url }
         format.json { render :json => { :message => "success"}}

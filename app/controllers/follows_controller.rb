@@ -63,9 +63,11 @@ class FollowsController < ApplicationController
           if @follow.save
             Notification.create(:source => user, :target => follow, :category => "follow", :seen => 0)
             format.json { render :json => { :message => "Following"}}
+            follow.give_points(10)
           else
-            follow = Follow.find_by_user_id_and_follower_id(follow.id, user.id)
-            follow.destroy
+            @follow = Follow.find_by_user_id_and_follower_id(follow.id, user.id)
+            @follow.destroy
+            follow.give_points(-10)
             format.json { render :json => { :message => "Follow"}}
           end
         else

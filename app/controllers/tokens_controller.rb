@@ -140,7 +140,7 @@ class TokensController < ApplicationController
 						@session.ensure_authentication_token!
 						format.json { render :json => { :message => "currently registered email", :user => @email_user, :profile_picture => @user.profile_picture.url, :token => @session.authentication_token}}
 					else
-					format.json { render :json => { :message => "There was an error registering"}}
+						format.json { render :json => { :message => "There was an error registering"}}
 					end
 				else
 					format.json { render :json => { :message => "needs signup"}}
