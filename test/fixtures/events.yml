@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  posted_date: 2013-07-24 22:11:24
+  deadline: 2013-07-24 22:11:24
+  photo: 
+  description: MyText
+
+two:
+  name: MyString
+  posted_date: 2013-07-24 22:11:24
+  deadline: 2013-07-24 22:11:24
+  photo: 
+  description: MyText

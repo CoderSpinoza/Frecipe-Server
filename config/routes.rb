@@ -1,5 +1,8 @@
 Frecipe::Application.routes.draw do
 
+  resources :events
+
+
   get "metrics" => "metrics#index"
   get "metrics/show"
 

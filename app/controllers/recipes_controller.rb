@@ -15,17 +15,17 @@ class RecipesController < ApplicationController
     #     format.json { render json: @recipes}
     #   end
     # else
-      @recipes = []
       # @recipes = Recipe.includes(:user, :ingredients, :likers)
       # recipes.each do |recipe|
       #   @recipes << { :id => recipe.id, :recipe_name => recipe.name, :recipe_image => recipe.recipe_image.url, :user => recipe.user, :likes => recipe.likers.count, :ingredients => recipe.ingredients }
       # end
       user = UserSession.user_by_authentication_token(params[:authentication_token])
+      @events = Event.all
       @recipes = Recipe.fetch_all
       # Rails.cache.write('all_recipes', @recipes)
       respond_to do |format|
         format.html # index.html.erb
-        format.json { render :json => { :recipes => @recipes, :ingredients => user.ingredients.select('name').map { |ingredient| ingredient.name } } }
+        format.json { render :json => { :recipes => @recipes, :events => @events, :ingredients => user.ingredients.select('name').map { |ingredient| ingredient.name } } }
       end
     end
     
