@@ -7,7 +7,7 @@
     <th></th>
   </tr>
 
-<% @ingredients.each do |ingredient| %>
+<% @ingredients_hash.each do |ingredient| %>
   <tr>
     <td><%= image_tag ingredient.image.url, :width => 100, :height => 100 %>
     <td><%= link_to ingredient.name, ingredient %></td>
