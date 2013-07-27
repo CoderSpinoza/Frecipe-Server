@@ -29,5 +29,7 @@ class Ability
     # See the wiki for details:
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
     can :upload_events, User if user.email == "hara0115@gmail.com" || user.email == "jakejooyoung@gmail.com"
+    can :access_ingredients, User if user.email == "hara0115@gmail.com" || user.email == "jakejooyoung@gmail.com"
+
   end
 end
