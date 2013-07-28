@@ -40,16 +40,16 @@ ActiveRecord::Schema.define(:version => 20130725051124) do
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
   create_table "events", :force => true do |t|
-    t.string   "name"
+    t.string   "name",               :default => ""
     t.datetime "deadline"
     t.string   "photo_file_name"
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
-    t.text     "description"
+    t.text     "description",        :default => ""
     t.integer  "user_id"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
   end
 
   create_table "feedbacks", :force => true do |t|
@@ -138,6 +138,7 @@ ActiveRecord::Schema.define(:version => 20130725051124) do
     t.integer  "likes_count",                               :default => 0
     t.string   "ingredients_string",        :limit => 1023, :default => ""
     t.string   "username"
+    t.text     "about"
     t.datetime "created_at",                                                :null => false
     t.datetime "updated_at",                                                :null => false
     t.text     "story",                                     :default => ""
@@ -235,7 +236,6 @@ ActiveRecord::Schema.define(:version => 20130725051124) do
     t.integer  "level",                        :default => 1
     t.datetime "created_at",                                   :null => false
     t.datetime "updated_at",                                   :null => false
-    t.integer  "total_points"
     t.integer  "points",                       :default => 0
   end
 
