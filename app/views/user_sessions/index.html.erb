@@ -1,3 +1,4 @@
+<% if @current_user == nil %>
 <div id="main">
   <header id="banner">
     <h1 class="logo">
@@ -10,10 +11,30 @@
         <a href="#">Download</a>
       </li>
       <li>
-        <a href="/users/sign_in">Sign in</a>
+        <% if current_user == nil%>
+          <a href="/users/sign_in">Sign in</a>
+        <% else %>
+        
+          <div class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= current_user.first_name + " " + current_user.last_name %></a>
+            <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu">
+              <li><a tabindex="-1" href="#">Profile</a></li>
+              <li><a tabindex="-1" href="#">Settings</a></li>
+              <li><a tabindex="-1" href="/users/sign_out">Sign Out</a></li>
+              <li class="divider"></li>
+              <li><a tabindex="-1" href="#">Separated link</a></li>
+            </ul>
+          </div>    
+        <% end %>
       </li>
     </ul>
   </header>
+  <div>
+    <% for recipe in @recipes %>
+      <div class="recipe">
+      <%= recipe.recipe_name %>
+    <% end %>
+  </div>
   <section id="slider">
     <div id="cover">
     </div>
@@ -69,3 +90,7 @@
     </ul>
   </footer>
 </div>
+<% else %>
+
+  
+<% end %>

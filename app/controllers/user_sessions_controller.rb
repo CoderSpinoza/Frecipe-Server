@@ -3,6 +3,7 @@ class UserSessionsController < ApplicationController
   # GET /user_sessions.json
   def index
     # @user_sessions = UserSession.all
+    @recipes = Recipe.all
     respond_to do |format|
       format.html# index.html.erb
       format.json { render json: @user_sessions }
